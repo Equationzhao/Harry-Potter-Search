@@ -104,9 +104,6 @@ public:
 	string getChapter( ) const{
 		return chapter;
 	}
-	string getBook( ){
-		return book;
-	}
 	static string getName( ){
 		return name;
 	}
