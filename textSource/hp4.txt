@@ -69,7 +69,7 @@ Harry went back to his toast. Of course, he thought bitterly, Un- cle Vernon was
 "Precisely. Now, we should aim to get in a few good compli- ments at dinner. Petunia, any ideas?"
 "Vernon tells me you're a wonderful golfer, Mr. Mason. . . . Do
 tell me where you bought your dress, Mrs. Mason. . . ." "Perfect . . . Dudley?"
-"How about -- 'We had to write an essay about our hero at school, Mr. Mason, and I wrote about you.'" 
+"How about -- 'We had to write an essay about our hero at school, Mr. Mason, and I wrote about you.'"
 This was too much for both Aunt Petunia and Harry. Aunt Petu- nia burst into tears and hugged her son, while Harry ducked under the table so they wouldn't see him laughing.
 "And you, boy?"
 Harry fought to keep his face straight as he emerged.
@@ -1378,7 +1378,7 @@ Angelina, Alicia, and Katie had come over, too. There were no girls on the Slyth
 
 110
 
-"Ah," said Flint. "But I've got a specially signed note here from Professor Snape. 'I, Professor S. Snape, give the Slytherin team per- mission to practice today on the Quidditch field owing to the need to train their new Seeker.'" 
+"Ah," said Flint. "But I've got a specially signed note here from Professor Snape. 'I, Professor S. Snape, give the Slytherin team per- mission to practice today on the Quidditch field owing to the need to train their new Seeker.'"
 "You've got a new Seeker?" said Wood, distracted. "Where?" And from behind the six large figures before them came a sev-
 enth, smaller boy, smirking all over his pale, pointed face. It was Draco Malfoy.
 "Aren't you Lucius Malfoy's son?" said Fred, looking at Malfoy with dislike.
@@ -1571,7 +1571,7 @@ Thinking that he should probably wait for Filch to come back, Harry sank into a 
 
 purple envelope with silver lettering on the front. With a quick glance at the door to check that Filch wasn't on his way back, Harry picked up the envelope and read:
 
-KWIKSPELL 
+KWIKSPELL
 A Correspondence Course in Beginners' Magic
 
 Intrigued, Harry flicked the envelope open and pulled out the sheaf of parchment inside. More curly silver writing on the front page said:
@@ -3717,7 +3717,7 @@ Harry wheeled around to stare at Ron. "Not another attack? Not now?"
 They hid themselves inside it, listening to the rumbling of hun- dreds of people moving overhead, and the staffroom door banging open. From between the musty folds of the cloaks, they watched the teachers filtering into the room. Some of them were looking puz- zled, others downright scared. Then Professor McGonagall arrived. "It has happened," she told the silent staffroom. "A student has
 been taken by the monster. Right into the Chamber itself."
 Professor Flitwick let out a squeal. Professor Sprout clapped her hands over her mouth. Snape gripped the back of a chair very hard and said, "How can you be sure?"
-"The Heir of Slytherin," said Professor McGonagall, who was very white, "left another message. Right underneath the first one. 'Her skeleton will lie in the Chamber forever.'" 
+"The Heir of Slytherin," said Professor McGonagall, who was very white, "left another message. Right underneath the first one. 'Her skeleton will lie in the Chamber forever.'"
 Professor Flitwick burst into tears.
 "Who is it?" said Madam Hooch, who had sunk, weak-kneed, into a chair. "Which student?"
 "Ginny Weasley," said Professor McGonagall.
@@ -4345,4 +4345,3 @@ Harry pulled out his quill and a bit of parchment and turned to Ron and Hermione
 "Proud?" said Harry. "Are you crazy? All those times I could've died, and I didn't manage it? They'll be furious. . . ."
 And together they walked back through the gateway to the Muggle world.
 341
-

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) equationzhao All Rights Reserved.
+*Copyright (c) equationzhao All Rights Reserved.
 *版本号： V1.0.0
 *创建人： equationzhao
 *电子邮箱：equationzhao@foxmail.com
@@ -75,11 +75,11 @@ public:
 			else if (26004 <= line && line < 39616){
 				book = "J.K.Rowling - HP 6 - Harry Potter and the Half - Blood Prince";
 			}
+
 			else if (39616 <= line && line < 49447){
 				book = "J.K.Rowling - HP 4 - Harry Potter and the Goblet of Fire";
 			}
 		}
-
 	}
 	~item( ){
 	}
@@ -111,7 +111,7 @@ public:
 		return found;
 	}
 	void output( )const{
-		cout << left << id << "\t" << name << "\t\t" << page << "\t" << setw(20) << chapter << "   \t" << book <<endl;
+		cout << left << id << "\t" << name << "\t\t" << page << "\t" << setw(15) << chapter << "   \t" << book << endl;
 	}
 	static void reset( ){
 		idGenerator = 0;
@@ -241,7 +241,6 @@ void search( ){
 	for (int n = 0; n < lineNo; n++){
 		for (int j = 0; j < line[n].size( ); j++){
 			if (strFind[0] == line[n][j]){
-
 				int flage = true;
 				for (int k = 1; k < len; k++){
 					if (strFind[k] != line[n][j + k]){
@@ -311,7 +310,6 @@ void GotoRecord(int const &n){
 			cout << line[tempLine - 2] << endl << line[tempLine] << endl << line[tempLine + 2] << endl;
 		}
 	}
-
 }
 
 void showTitle( ){
