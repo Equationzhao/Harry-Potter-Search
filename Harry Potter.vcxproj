@@ -141,6 +141,19 @@
   <ItemGroup>
     <ClCompile Include="源.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Harry Potter.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="textSource\hp1.txt" />
+    <Text Include="textSource\hp2.txt" />
+    <Text Include="textSource\hp3.txt" />
+    <Text Include="textSource\hp4.txt" />
+    <Text Include="textSource\hp5.txt" />
+    <Text Include="textSource\hp6.txt" />
+    <Text Include="textSource\hp7.txt" />
+    <Text Include="textSource\hp8.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
