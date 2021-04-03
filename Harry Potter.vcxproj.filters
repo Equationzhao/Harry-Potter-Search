@@ -20,11 +20,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Harry Potter.md">
-      <Filter>资源文件</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="textSource\hp1.txt">
       <Filter>资源文件</Filter>
     </Text>
@@ -49,5 +44,10 @@
     <Text Include="textSource\hp8.txt">
       <Filter>资源文件</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

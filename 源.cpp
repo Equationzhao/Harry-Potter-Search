@@ -57,25 +57,25 @@ public:
 			if (0 <= line && line < 78){
 				book = "J.K.Rowling - HP 0 - Harry Potter Prequel";
 			}
-			if (78 <= line && line < 9810){
+			else if (78 <= line && line < 9810){
 				book = "HP7--Harry_Potter_and_the_Deathly_Hallows_Book_7";
 			}
-			if (9810 <= line && line < 19814){
+			else if (9810 <= line && line < 19814){
 				book = "J.K.Rowling - HP 3 - Harry Potter and the Prisoner of Azkaban";
 			}
-			if (19814 <= line && line < 24162){
+			else if (19814 <= line && line < 24162){
 				book = "HP2--Harry_Potter_and_the_Chamber_of_Secrets_Book_2";
 			}
-			if (224162 <= line && line < 24867){
+			else if (24162 <= line && line < 24867){
 				book = "J.K.Rowling - Quidditch Through the Ages";
 			}
-			if (24867 <= line && line < 26004){
+			else if (24867 <= line && line < 26004){
 				book = "J.K.Rowling - The Tales of Beedle the Bard";
 			}
-			if (26004 <= line && line < 39616){
+			else if (26004 <= line && line < 39616){
 				book = "J.K.Rowling - HP 6 - Harry Potter and the Half - Blood Prince";
 			}
-			if (39616 <= line && line < 49447){
+			else if (39616 <= line && line < 49447){
 				book = "J.K.Rowling - HP 4 - Harry Potter and the Goblet of Fire";
 			}
 		}
@@ -111,7 +111,7 @@ public:
 		return found;
 	}
 	void output( )const{
-		cout << left << id << "\t" << name << "\t\t" << page << "\t" << setw(20) << chapter << "   \t" << book << endl;
+		cout << left << id << "\t" << name << "\t\t" << page << "\t" << setw(20) << chapter << "   \t" << book <<endl;
 	}
 	static void reset( ){
 		idGenerator = 0;
@@ -315,7 +315,7 @@ void GotoRecord(int const &n){
 }
 
 void showTitle( ){
-	cout << left << "序号" << "\t" << "人名" << "\t\t" << "页码" << "\t" << setw(20) << "章节" << "   \t" << "书名" << endl;
+	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t" << setw(20) << "章节" << "   \t" << "书名" << endl;
 	return;
 }
 
