@@ -1,10 +1,10 @@
 ﻿/*
 *Copyright (c) equationzhao All Rights Reserved.
-*版本号： V1.0.0
-*创建人： equationzhao
-*电子邮箱：equationzhao@foxmail.com
-*创建时间：2021.3.31
-*描述：USTB程序设计实践Ⅰ作业
+*?汾??? V1.0.0
+*??????? equationzhao
+*????????equationzhao@foxmail.com
+*???????2021.3.31
+*??????USTB???????????????
 *Private Repository:https://github.com/Equationzhao/Harry-Potter-Search
 */
 
@@ -21,7 +21,7 @@ using namespace std;
 
 ifstream file[8];
 class item;
-char strFind[20];
+char strFind[100];
 int lineNo = 0;
 vector<string> line(50000);
 vector<item> Index;
@@ -137,22 +137,22 @@ int item::idGenerator = 0;
 string item::name = "unknown";
 
 void info( ){
-	cout << "哈利波特书籍检索系统v1.0.0\n";
+	cout << "?????????鼮??????v1.0.0\n";
 }
 void Softwareinformation( ){
 	cout << "* Copyright (c) equationzhao All Rights Reserved.\n"
-		<< "* 版本号： V1.0.0\n"
-		<< "* 创建人： equationzhao\n"
-		<< "* 电子邮箱：equationzhao@foxmail.com\n"
-		<< "* 创建时间：20210331\n"
-		<< "* 描述：USTB程序设计实践Ⅰ作业\n";
+		<< "* ?汾??? V1.0.0\n"
+		<< "* ??????? equationzhao\n"
+		<< "* ????????equationzhao@foxmail.com\n"
+		<< "* ???????20210331\n"
+		<< "* ??????USTB???????????????\n";
 }
 void showInfo( ){
-	cout << "输入\"search NAME\",查询为\"NAME\"的人名/地名\n输入\"goto N\",查询第N条记录\n输入\"exit\"退出查询系统\n"
-		<< "使用.clear命令清除屏幕上的内容\n使用.help命令以显示此提示\n使用.info命令显示软件相关信息\n\n";
+	cout << "????\"search NAME\",????\"NAME\"??????/????\n????\"goto N\",?????N?????\n????\"exit\"????????\n"
+		<< "???.clear?????????????????\n???.help??????????????\n???.info?????????????????\n\n";
 }
 void showRemind( ){
-	cout << "注意:\n\t1.请不要在没有查询过时使用goto,会造成错误\n\t2.本软件对空格敏感,例如\"Harry Potter\"与\"Harry   Potter \"是不同的\n";
+	cout << "???:\n\t1.???????в????????goto,????????\n\t2.??????????????,????\"Harry Potter\"??\"Harry   Potter \"??????\n";
 }
 void initial( ){
 	file[0].open("./textSource/hp1.txt",std::ifstream::in);
@@ -181,6 +181,7 @@ void search( ){
 	int len = strlen(strFind);
 	clock_t start,end;
 	start = clock( );
+	int num = 0;
 	for (int n = 0; n < lineNo; n++){
 		for (int j = 0; j < line[n].size( ); j++){
 			if (strFind[0] == line[n][j]){
@@ -194,6 +195,7 @@ void search( ){
 				}
 				if (flage){
 					//cout << line[n] << endl;
+					num++;
 					j += len;
 					item newItem(n,findChapter(n),findPage(n));
 					Index.push_back(newItem);
@@ -201,13 +203,16 @@ void search( ){
 			}
 		}
 	}
+	if (!num){
+		Index.emplace_back(-1,"none","none");
+	}
 	end = clock( );
 	showOutcome( );
-	cout << "查询用时" << (double)( end - start ) / 1000 << "秒" << endl;
+	cout << "??????" << (double)( end - start ) / 1000 << "??" << endl;
 }
 
 string findChapter(int const &L){
-	//chapter表示章节,且一行的字符数均小于25
+	//chapter??????,????е????????С??25
 	regex pattern("chapter",regex::icase);
 	for (int i = L; i >= 0; i--){
 		if (line[i].size( ) >= 25){
@@ -223,13 +228,15 @@ string findChapter(int const &L){
 }
 
 string findPage(int const &L){
-	//数字表示页码,且一行的字符数均小于等于3
+	//?????????,????е????????С?????3
 	for (int i = L; i < line.size( ); i++){
 		if (line[i].size( ) >= 4){
 			continue;
 		}
-		if (isdigit(line[i][0])){
-			return line[i];
+		for (int j = 0; j < line[i].size( ); j++){
+			if (isdigit(line[i][j])){
+				return line[i];
+			}
 		}
 	}
 	return "unknown";
@@ -241,7 +248,7 @@ void GotoRecord(int const &n){
 		return;
 	}
 	else{
-		cout << "第" << n << "条记录" << endl;
+		cout << "??" << n << "?????" << endl;
 		int tempLine = Index[n - 1].getLine( );
 		if (tempLine == 0){
 			cout << line[0] << endl << line[2] << endl << line[4] << endl;
@@ -256,7 +263,7 @@ void GotoRecord(int const &n){
 }
 
 void showTitle( ){
-	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t" << setw(20) << "章节" << "   \t" << "书名" << endl;
+	cout << left << "???" << "\t" << "????/????" << "\t\t" << "???" << "\t" << setw(20) << "???" << "   \t" << "????" << endl;
 	return;
 }
 
@@ -264,14 +271,14 @@ void showOutcome( ){
 	system("cls");
 	info( );
 	if (!item::getFound( )){
-		cout << "没有查询到~~" << endl;
+		cout << "??в????~~" << endl;
 		return;
 	}
 	showTitle( );
 	for (int i = 0; i < Index.size( ); i++){
 		Index[i].output( );
 	}
-	cout << "共查询到" << Index.size( ) << "条记录" << endl;
+	cout << "???????" << Index.size( ) << "?????" << endl;
 	return;
 }
 
@@ -296,7 +303,7 @@ void showMenu( ){
 		else if (!strcmp(option,Search)){
 			Index.clear( );
 			item::reset( );
-			cin.getline(strFind,20);
+			cin.getline(strFind,100);
 			item::setName(strFind);
 			flage = false;
 			search( );
@@ -323,7 +330,7 @@ void showMenu( ){
 				}
 			}
 			if (flage){
-				GotoRecord(n);//跳转到第n条记录
+				GotoRecord(n);//???????n?????
 			}
 			else{
 				cout << "NaN\nPlease input a NUMBER!\n";
@@ -336,12 +343,12 @@ void showMenu( ){
 }
 
 int main( ){
-	SetConsoleTitle(L"哈利波特书籍检索系统");
-	info( );//显示基本软件名称
-	showInfo( );//显示基本操作
-	showRemind( );//显示注意事项
-	initial( );//初始接受文件信息并存于vector<string>中
-	showMenu( );//显示操作
+	SetConsoleTitle(L"?????????鼮??????");
+	info( );//???????????????
+	showInfo( );//???????????
+	showRemind( );//??????????
+	initial( );//???????????????????vector<string>??
+	showMenu( );//???????
 	cout << "\nEND\n";
 	return 0;
 }
