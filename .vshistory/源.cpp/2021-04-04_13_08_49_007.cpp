@@ -21,7 +21,7 @@ using namespace std;
 
 ifstream file[8];
 class item;
-char strFind[100];
+char strFind[20];
 int lineNo = 0;
 vector<string> line(50000);
 vector<item> Index;
@@ -181,7 +181,6 @@ void search( ){
 	int len = strlen(strFind);
 	clock_t start,end;
 	start = clock( );
-	int num = 0;
 	for (int n = 0; n < lineNo; n++){
 		for (int j = 0; j < line[n].size( ); j++){
 			if (strFind[0] == line[n][j]){
@@ -195,16 +194,12 @@ void search( ){
 				}
 				if (flage){
 					//cout << line[n] << endl;
-					num++;
 					j += len;
 					item newItem(n,findChapter(n),findPage(n));
 					Index.push_back(newItem);
 				}
 			}
 		}
-	}
-	if (!num){
-		Index.emplace_back(-1,"none","none");
 	}
 	end = clock( );
 	showOutcome( );
@@ -303,7 +298,7 @@ void showMenu( ){
 		else if (!strcmp(option,Search)){
 			Index.clear( );
 			item::reset( );
-			cin.getline(strFind,100);
+			cin.getline(strFind,20);
 			item::setName(strFind);
 			flage = false;
 			search( );

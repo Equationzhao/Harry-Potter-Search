@@ -21,7 +21,7 @@ using namespace std;
 
 ifstream file[8];
 class item;
-char strFind[100];
+char strFind[20];
 int lineNo = 0;
 vector<string> line(50000);
 vector<item> Index;
@@ -177,11 +177,70 @@ void initial( ){
 	}
 }
 
+void showMenu( ){
+	bool flage = true;
+	while (1){
+		char option[10];
+		cin >> option;
+		cin.ignore( );//For cin.getline() will recive '\n'
+		if (!strcmp(option,Exit)){
+			return;
+		}
+		else if (!strcmp(option,Clear)){
+			system("cls");
+		}
+		else if (!strcmp(option,information)){
+			Softwareinformation( );
+		}
+		else if (!strcmp(option,Help)){
+			showInfo( );
+		}
+		else if (!strcmp(option,Search)){
+			Index.clear( );
+			item::reset( );
+			cin.getline(strFind,20);
+			item::setName(strFind);
+			flage = false;
+			search( );
+		}
+		else if (!strcmp(option,Goto)){
+			if (flage){
+				cout << "No existed record! :-(\n";
+				cin.ignore( );
+				continue;
+			}
+			char charNum[10];
+			cin >> charNum;
+			int flage = false;
+			int n = 0;
+			for (int i = 0; i < strlen(charNum); i++){
+				if (isdigit(charNum[i])){
+					n *= 10;
+					n += charNum[i] - '0';
+					flage = true;
+				}
+				else{
+					flage = false;
+					break;
+				}
+			}
+			if (flage){
+				GotoRecord(n);//跳转到第n条记录
+			}
+			else{
+				cout << "NaN\nPlease input a NUMBER!\n";
+			}
+		}
+		else{
+			cout << "\nError\nType in .help to get more information\n";
+		}
+	}
+}
+
 void search( ){
 	int len = strlen(strFind);
 	clock_t start,end;
 	start = clock( );
-	int num = 0;
 	for (int n = 0; n < lineNo; n++){
 		for (int j = 0; j < line[n].size( ); j++){
 			if (strFind[0] == line[n][j]){
@@ -195,16 +254,12 @@ void search( ){
 				}
 				if (flage){
 					//cout << line[n] << endl;
-					num++;
 					j += len;
 					item newItem(n,findChapter(n),findPage(n));
 					Index.push_back(newItem);
 				}
 			}
 		}
-	}
-	if (!num){
-		Index.emplace_back(-1,"none","none");
 	}
 	end = clock( );
 	showOutcome( );
@@ -233,10 +288,8 @@ string findPage(int const &L){
 		if (line[i].size( ) >= 4){
 			continue;
 		}
-		for (int j = 0; j < line[i].size( ); j++){
-			if (isdigit(line[i][j])){
-				return line[i];
-			}
+		if (isdigit(line[i][0])){
+			return line[i];
 		}
 	}
 	return "unknown";
@@ -280,66 +333,6 @@ void showOutcome( ){
 	}
 	cout << "共查询到" << Index.size( ) << "条记录" << endl;
 	return;
-}
-
-void showMenu( ){
-	bool flage = true;
-	while (1){
-		char option[10];
-		cin >> option;
-		cin.ignore( );//For cin.getline() will recive '\n'
-		if (!strcmp(option,Exit)){
-			return;
-		}
-		else if (!strcmp(option,Clear)){
-			system("cls");
-		}
-		else if (!strcmp(option,information)){
-			Softwareinformation( );
-		}
-		else if (!strcmp(option,Help)){
-			showInfo( );
-		}
-		else if (!strcmp(option,Search)){
-			Index.clear( );
-			item::reset( );
-			cin.getline(strFind,100);
-			item::setName(strFind);
-			flage = false;
-			search( );
-		}
-		else if (!strcmp(option,Goto)){
-			if (flage){
-				cout << "No existed record! :-(\n";
-				cin.ignore( );
-				continue;
-			}
-			char charNum[10];
-			cin >> charNum;
-			int flage = false;
-			int n = 0;
-			for (int i = 0; i < strlen(charNum); i++){
-				if (isdigit(charNum[i])){
-					n *= 10;
-					n += charNum[i] - '0';
-					flage = true;
-				}
-				else{
-					flage = false;
-					break;
-				}
-			}
-			if (flage){
-				GotoRecord(n);//跳转到第n条记录
-			}
-			else{
-				cout << "NaN\nPlease input a NUMBER!\n";
-			}
-		}
-		else{
-			cout << "\nError\nType in .help to get more information\n";
-		}
-	}
 }
 
 int main( ){

@@ -21,7 +21,7 @@ using namespace std;
 
 ifstream file[8];
 class item;
-char strFind[100];
+char strFind[20];
 int lineNo = 0;
 vector<string> line(50000);
 vector<item> Index;
@@ -303,7 +303,7 @@ void showMenu( ){
 		else if (!strcmp(option,Search)){
 			Index.clear( );
 			item::reset( );
-			cin.getline(strFind,100);
+			cin.getline(strFind,20);
 			item::setName(strFind);
 			flage = false;
 			search( );

@@ -21,7 +21,7 @@ using namespace std;
 
 ifstream file[8];
 class item;
-char strFind[100];
+char strFind[20];
 int lineNo = 0;
 vector<string> line(50000);
 vector<item> Index;
@@ -49,36 +49,30 @@ public:
 	item(int const pLine,string const pChapter,string const pPage) :line(pLine),chapter(pChapter),page(pPage){
 		idGenerator++;
 		id = idGenerator;
-		if (line == -1){
-			found = false;
+		if (0 <= line && line < 78){
+			book = "J.K.Rowling - HP 0 - Harry Potter Prequel";
 		}
-		else{
-			found = true;
-			if (0 <= line && line < 78){
-				book = "J.K.Rowling - HP 0 - Harry Potter Prequel";
-			}
-			else if (78 <= line && line < 9810){
-				book = "HP7--Harry_Potter_and_the_Deathly_Hallows_Book_7";
-			}
-			else if (9810 <= line && line < 19814){
-				book = "J.K.Rowling - HP 3 - Harry Potter and the Prisoner of Azkaban";
-			}
-			else if (19814 <= line && line < 24162){
-				book = "HP2--Harry_Potter_and_the_Chamber_of_Secrets_Book_2";
-			}
-			else if (24162 <= line && line < 24867){
-				book = "J.K.Rowling - Quidditch Through the Ages";
-			}
-			else if (24867 <= line && line < 26004){
-				book = "J.K.Rowling - The Tales of Beedle the Bard";
-			}
-			else if (26004 <= line && line < 39616){
-				book = "J.K.Rowling - HP 6 - Harry Potter and the Half - Blood Prince";
-			}
+		else if (78 <= line && line < 9810){
+			book = "HP7--Harry_Potter_and_the_Deathly_Hallows_Book_7";
+		}
+		else if (9810 <= line && line < 19814){
+			book = "J.K.Rowling - HP 3 - Harry Potter and the Prisoner of Azkaban";
+		}
+		else if (19814 <= line && line < 24162){
+			book = "HP2--Harry_Potter_and_the_Chamber_of_Secrets_Book_2";
+		}
+		else if (24162 <= line && line < 24867){
+			book = "J.K.Rowling - Quidditch Through the Ages";
+		}
+		else if (24867 <= line && line < 26004){
+			book = "J.K.Rowling - The Tales of Beedle the Bard";
+		}
+		else if (26004 <= line && line < 39616){
+			book = "J.K.Rowling - HP 6 - Harry Potter and the Half - Blood Prince";
+		}
 
-			else if (39616 <= line && line < 49447){
-				book = "J.K.Rowling - HP 4 - Harry Potter and the Goblet of Fire";
-			}
+		else if (39616 <= line && line < 49447){
+			book = "J.K.Rowling - HP 4 - Harry Potter and the Goblet of Fire";
 		}
 	}
 	~item( ){
@@ -110,9 +104,6 @@ public:
 	static string getName( ){
 		return name;
 	}
-	static bool getFound( ){
-		return found;
-	}
 	void output( )const{
 		cout << left << id << "\t" << name << "\t\t" << page << "\t" << setw(15) << chapter << "   \t" << book << endl;
 	}
@@ -127,12 +118,10 @@ private:
 	string page;
 	string chapter;
 	string book;
-	static bool found;
 	static int idGenerator;
 	static string name;
 };
 
-bool item::found = false;
 int item::idGenerator = 0;
 string item::name = "unknown";
 
@@ -177,11 +166,70 @@ void initial( ){
 	}
 }
 
+void showMenu( ){
+	bool flage = true;
+	while (1){
+		char option[10];
+		cin >> option;
+		cin.ignore( );//For cin.getline() will recive '\n'
+		if (!strcmp(option,Exit)){
+			return;
+		}
+		else if (!strcmp(option,Clear)){
+			system("cls");
+		}
+		else if (!strcmp(option,information)){
+			Softwareinformation( );
+		}
+		else if (!strcmp(option,Help)){
+			showInfo( );
+		}
+		else if (!strcmp(option,Search)){
+			Index.clear( );
+			item::reset( );
+			cin.getline(strFind,20);
+			item::setName(strFind);
+			flage = false;
+			search( );
+		}
+		else if (!strcmp(option,Goto)){
+			if (flage){
+				cout << "No existed record! :-(\n";
+				cin.ignore( );
+				continue;
+			}
+			char charNum[10];
+			cin >> charNum;
+			int flage = false;
+			int n = 0;
+			for (int i = 0; i < strlen(charNum); i++){
+				if (isdigit(charNum[i])){
+					n *= 10;
+					n += charNum[i] - '0';
+					flage = true;
+				}
+				else{
+					flage = false;
+					break;
+				}
+			}
+			if (flage){
+				GotoRecord(n);//跳转到第n条记录
+			}
+			else{
+				cout << "NaN\nPlease input a NUMBER!\n";
+			}
+		}
+		else{
+			cout << "\nError\nType in .help to get more information\n";
+		}
+	}
+}
+
 void search( ){
 	int len = strlen(strFind);
 	clock_t start,end;
 	start = clock( );
-	int num = 0;
 	for (int n = 0; n < lineNo; n++){
 		for (int j = 0; j < line[n].size( ); j++){
 			if (strFind[0] == line[n][j]){
@@ -195,16 +243,12 @@ void search( ){
 				}
 				if (flage){
 					//cout << line[n] << endl;
-					num++;
 					j += len;
 					item newItem(n,findChapter(n),findPage(n));
 					Index.push_back(newItem);
 				}
 			}
 		}
-	}
-	if (!num){
-		Index.emplace_back(-1,"none","none");
 	}
 	end = clock( );
 	showOutcome( );
@@ -233,10 +277,8 @@ string findPage(int const &L){
 		if (line[i].size( ) >= 4){
 			continue;
 		}
-		for (int j = 0; j < line[i].size( ); j++){
-			if (isdigit(line[i][j])){
-				return line[i];
-			}
+		if (isdigit(line[i][0])){
+			return line[i];
 		}
 	}
 	return "unknown";
@@ -280,66 +322,6 @@ void showOutcome( ){
 	}
 	cout << "共查询到" << Index.size( ) << "条记录" << endl;
 	return;
-}
-
-void showMenu( ){
-	bool flage = true;
-	while (1){
-		char option[10];
-		cin >> option;
-		cin.ignore( );//For cin.getline() will recive '\n'
-		if (!strcmp(option,Exit)){
-			return;
-		}
-		else if (!strcmp(option,Clear)){
-			system("cls");
-		}
-		else if (!strcmp(option,information)){
-			Softwareinformation( );
-		}
-		else if (!strcmp(option,Help)){
-			showInfo( );
-		}
-		else if (!strcmp(option,Search)){
-			Index.clear( );
-			item::reset( );
-			cin.getline(strFind,100);
-			item::setName(strFind);
-			flage = false;
-			search( );
-		}
-		else if (!strcmp(option,Goto)){
-			if (flage){
-				cout << "No existed record! :-(\n";
-				cin.ignore( );
-				continue;
-			}
-			char charNum[10];
-			cin >> charNum;
-			int flage = false;
-			int n = 0;
-			for (int i = 0; i < strlen(charNum); i++){
-				if (isdigit(charNum[i])){
-					n *= 10;
-					n += charNum[i] - '0';
-					flage = true;
-				}
-				else{
-					flage = false;
-					break;
-				}
-			}
-			if (flage){
-				GotoRecord(n);//跳转到第n条记录
-			}
-			else{
-				cout << "NaN\nPlease input a NUMBER!\n";
-			}
-		}
-		else{
-			cout << "\nError\nType in .help to get more information\n";
-		}
-	}
 }
 
 int main( ){
