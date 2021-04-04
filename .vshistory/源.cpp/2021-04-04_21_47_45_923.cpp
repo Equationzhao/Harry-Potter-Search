@@ -1,14 +1,4 @@
-﻿/*
-*Copyright (c) equationzhao All Rights Reserved.
-*版本号： V1.0.0
-*创建人： equationzhao
-*电子邮箱：equationzhao@foxmail.com
-*创建时间：2021.3.31
-*描述：USTB程序设计实践Ⅰ作业
-*Private Repository:https://github.com/Equationzhao/Harry-Potter-Search
-*/
-
-#include <iostream>
+﻿#include <iostream>
 #include <cstring>
 #include <string>
 #include <fstream>

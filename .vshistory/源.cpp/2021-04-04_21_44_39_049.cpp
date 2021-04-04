@@ -16,6 +16,7 @@
 #include <iomanip>
 #include <regex>
 #include <time.h>
+#include<math.h>
 #include <Windows.h>
 using namespace std;
 

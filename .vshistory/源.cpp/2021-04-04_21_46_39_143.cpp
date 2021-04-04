@@ -19,6 +19,7 @@
 #include <Windows.h>
 using namespace std;
 
+int x;
 ifstream file[8];
 class item;
 char strFind[20];
