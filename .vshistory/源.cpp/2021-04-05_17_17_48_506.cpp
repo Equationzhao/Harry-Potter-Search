@@ -19,6 +19,7 @@
 #include <Windows.h>
 using namespace std;
 
+ifstream file[8];
 class item;
 char strFind[20];
 int lineNo = 0;
@@ -157,7 +158,6 @@ void showRemind( ){
 		<< "\t3.本软件默认关闭严格搜索模式,在检索人名/地名时影响较小,但在检索其他字符串时可能存在误差\n\t  若要启用/关闭严格模式,请使用strictOn/strictOff命令\n";
 }
 void initial( ){
-	ifstream *file = new ifstream[8];
 	file[0].open("./textSource/hp1.txt",std::ifstream::in);
 	file[1].open("./textSource/hp2.txt",std::ifstream::in);
 	file[2].open("./textSource/hp3.txt",std::ifstream::in);
@@ -178,7 +178,6 @@ void initial( ){
 			break;
 		}
 	}
-	delete[]file;
 	return;
 }
 
