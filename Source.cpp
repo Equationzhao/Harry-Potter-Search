@@ -8,18 +8,18 @@
 *Private Repository:https://github.com/Equationzhao/Harry-Potter-Search
 */
 
-#include <iostream>
 #include <cstring>
-#include <fstream>
-#include <vector>
-#include <regex>
 #include <ctime>
+#include <fstream>
+#include <iostream>
+#include <regex>
+#include <vector>
 #include <Windows.h>
+
 #include "HarryPotterSearch.h"
 #include "item.h"
 using namespace std;
 
-class item;
 char strFind[100];
 /**
  * brief line的size
@@ -110,10 +110,10 @@ auto search( ) -> void{
 	cout << "查询用时" << static_cast<double>( end - start ) / 1000 << "秒" << endl;
 }
 
-auto findChapter(int const &L) -> string{
+auto findChapter(int const &l) -> string{
 	//chapter表示章节,且一行的字符数均小于25
 	const regex pattern("chapter",regex::icase);
-	for (auto i = L; i >= 0; i--){
+	for (auto i = l; i >= 0; i--){
 		if (line[i].size( ) >= 25){
 			continue;
 		}
@@ -126,9 +126,9 @@ auto findChapter(int const &L) -> string{
 	return "unknown";
 }
 
-auto findPage(int const &L) -> string{
+auto findPage(int const &l) -> string{
 	//数字表示页码,且一行的字符数均小于等于3
-	for (auto i = L; i < lineNo; i++){
+	for (auto i = l; i < lineNo; i++){
 		if (line[i].size( ) >= 4){
 			continue;
 		}
@@ -176,6 +176,29 @@ auto showOutcome( ) -> void{
 	cout << "共查询到" << index.size( ) << "条记录" << endl;
 }
 
+auto gotoSearch( ) -> void{
+	index.clear( );
+	item::reset( );
+	cin.getline(strFind,100);
+	item::setName(strFind);
+	search( );
+}
+
+auto checkNum(char const charNum[],bool &flag1,int &n) -> void{
+	const auto charLen = strlen(charNum);
+	for (auto i = 0; i < charLen; i++){
+		if (isdigit(charNum[i])){
+			n *= 10;
+			n += charNum[i] - '0';
+			flag1 = true;
+		}
+		else{
+			flag1 = false;
+			break;
+		}
+	}
+}
+
 auto showMenu( ) -> void{
 	auto flag = true;
 	while (true){
@@ -183,12 +206,8 @@ auto showMenu( ) -> void{
 		cin >> option;
 		cin.ignore( ); //For cin.getline() will recive '\n'
 		if (!strcmp(option,option::search)){
-			index.clear( );
-			item::reset( );
-			cin.getline(strFind,100);
-			item::setName(strFind);
+			gotoSearch( );
 			flag = false;
-			search( );
 		}
 		else if (!strcmp(option,option::Goto)){
 			if (flag){
@@ -196,27 +215,18 @@ auto showMenu( ) -> void{
 				cin.ignore( );
 				continue;
 			}
-			char charNum[10];
-			cin >> charNum;
-			auto n = 0;
-			auto flag1 = false;
-			const auto charLen = strlen(charNum);
-			for (auto i = 0; i < charLen; i++){
-				if (isdigit(charNum[i])){
-					n *= 10;
-					n += charNum[i] - '0';
-					flag1 = true;
+			else{
+				char charNum[10];
+				cin >> charNum;
+				auto n = 0;
+				auto flag1 = false;
+				checkNum(charNum,flag1,n);
+				if (flag1){
+					gotoRecord(n); //跳转到第n条记录
 				}
 				else{
-					flag1 = false;
-					break;
+					cout << "NaN\nPlease input a valid NUMBER!\n";
 				}
-			}
-			if (flag1){
-				gotoRecord(n); //跳转到第n条记录
-			}
-			else{
-				cout << "NaN\nPlease input a valid NUMBER!\n";
 			}
 		}
 		else if (!strcmp(option,option::exit)){
