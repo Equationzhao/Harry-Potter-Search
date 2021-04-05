@@ -20,11 +20,11 @@
 using namespace std;
 
 class item;
-char str_find[100];
+char strFind[100];
 /**
  * brief line的size
  */
-int line_no = 0;
+int lineNo = 0;
 /**
  * brief 用于储存file中每行的字符串
  */
@@ -41,29 +41,29 @@ namespace option{
 	char help[] = "help";
 	char clear[] = "clear";
 	char information[] = "info";
-	char strict_on[] = "strictOn";
-	char strict_off[] = "strictOff";
+	char strictOn[] = "strictOn";
+	char strictOff[] = "strictOff";
 }
 
 auto info( )->void;
-auto software_information( )->void;
+auto softwareInformation( )->void;
 auto initial( )->void;
-auto show_menu( )->void;
+auto showMenu( )->void;
 auto search( )->void;
-auto show_title( )->void;
-auto show_outcome( ) -> void;
-auto goto_record(int const &) -> void;
-auto find_chapter(int const &)->string;
-auto find_page(int const &)->string;
+auto showTitle( )->void;
+auto showOutcome( ) -> void;
+auto gotoRecord(int const &) -> void;
+auto findChapter(int const &)->string;
+auto findPage(int const &)->string;
 auto strict = false;
 
 class item{
 public:
-	item(int const &p_line,string const &p_chapter,string const &p_page)
-		: line_(p_line),page_(p_page),
-		chapter_(p_chapter){
-		id_generator_++;
-		id_ = id_generator_;
+	item(int const &pLine,string const &pChapter,string const &pPage)
+		: line_(pLine),page_(pPage),
+		chapter_(pChapter){
+		idGenerator_++;
+		id_ = idGenerator_;
 		if (line_ == -1){
 			found_ = false;
 		}
@@ -100,43 +100,43 @@ public:
 	~item( )
 		= default;
 
-	void set_page(string const &p_page){
-		page_ = p_page;
+	void setPage(string const &pPage){
+		page_ = pPage;
 	}
 
-	void set_chapter(string const &p_chapter){
-		chapter_ = p_chapter;
+	void setChapter(string const &pChapter){
+		chapter_ = pChapter;
 	}
 
-	void set_line(int const &l){
+	void setLine(int const &l){
 		line_ = l;
 	}
 
-	static void set_name(string const &p_name){
-		name_ = p_name;
+	static void setName(string const &pName){
+		name_ = pName;
 	}
 
-	[[nodiscard]] int get_line( ) const{
+	[[nodiscard]] int getLine( ) const{
 		return line_;
 	}
 
-	[[nodiscard]] string get_paper( ) const{
+	[[nodiscard]] string getPaper( ) const{
 		return page_;
 	}
 
-	[[nodiscard]] string get_chapter( ) const{
+	[[nodiscard]] string getChapter( ) const{
 		return chapter_;
 	}
 
-	[[nodiscard]] string get_book( ) const{
+	[[nodiscard]] string getBook( ) const{
 		return book_;
 	}
 
-	static string get_name( ){
+	static string getName( ){
 		return name_;
 	}
 
-	static bool get_found( ){
+	static bool getFound( ){
 		return found_;
 	}
 
@@ -145,7 +145,7 @@ public:
 	}
 
 	static void reset( ){
-		id_generator_ = 0;
+		idGenerator_ = 0;
 		name_ = "";
 	}
 
@@ -156,19 +156,19 @@ private:
 	string chapter_;
 	string book_;
 	static bool found_;
-	static int id_generator_;
+	static int idGenerator_;
 	static string name_;
 };
 
 bool item::found_ = false;
-int item::id_generator_ = 0;
+int item::idGenerator_ = 0;
 string item::name_ = "unknown";
 
 auto info( ) -> void{
 	cout << "哈利波特书籍检索系统v1.0.1\n";
 }
 
-auto software_information( ) -> void{
+auto softwareInformation( ) -> void{
 	cout << "* Copyright (c) EquationZhao All Rights Reserved.\n"
 		<< "* 版本号： V1.0.1\n"
 		<< "* 创建人： EquationZhao\n"
@@ -177,12 +177,12 @@ auto software_information( ) -> void{
 		<< "* 描述：USTB程序设计实践Ⅰ作业\n";
 }
 
-auto show_info( ) -> void{
+auto showInfo( ) -> void{
 	cout << "输入\"search NAME\",查询为\"NAME\"的人名/地名\n输入\"goto N\",查询第N条记录\n输入\"exit\"退出查询系统\n"
 		<< "使用clear命令清除屏幕上的内容\n使用help命令以显示此提示\n使用info命令显示软件相关信息\n使用strictOn/strictOff命令启用/关闭严格模式\n\n";
 }
 
-auto show_remind( ) -> void{
+auto showRemind( ) -> void{
 	cout << "注意:\n\t1.请不要在没有查询过时使用goto,会造成错误\n\t2.本软件对空格敏感,例如\"Harry Potter\"与\"Harry   Potter \"是不同的\n"
 		<< "\t3.本软件默认关闭严格搜索模式,在检索人名/地名时影响较小,但在检索其他字符串时可能存在误差\n\t  若要启用/关闭严格模式,请使用strictOn/strictOff命令\n";
 }
@@ -199,9 +199,9 @@ auto initial( ) -> void{
 	file[7].open("./textSource/hp8.txt",std::ifstream::in);
 	auto i = 0;
 	while (true){
-		while (getline(file[i],line[line_no])){
+		while (getline(file[i],line[lineNo])){
 			//cout << line[lineNo] << endl;
-			line_no++;
+			lineNo++;
 		}
 		file[i].close( );
 		i++;
@@ -213,14 +213,14 @@ auto initial( ) -> void{
 }
 
 auto search( ) -> void{
-	const auto len = strlen(str_find);
+	const auto len = strlen(strFind);
 	const auto start = clock( );
-	for (auto n = 0; n < line_no; n++){
+	for (auto n = 0; n < lineNo; n++){
 		for (auto j = 0; j < line[n].size( ); j++){
-			if (str_find[0] == line[n][j]){
+			if (strFind[0] == line[n][j]){
 				int flag = true;
 				for (auto k = 1; k < len; k++){
-					if (str_find[k] != line[n][j + k]){
+					if (strFind[k] != line[n][k + j]){
 						flag = false;
 						break;
 					}
@@ -229,18 +229,18 @@ auto search( ) -> void{
 					if (!strict){
 						j += len;
 					}
-					item newItem(n,find_chapter(n),find_page(n));
+					item newItem(n,findChapter(n),findPage(n));
 					index.push_back(newItem);
 				}
 			}
 		}
 	}
 	const auto end = clock( );
-	show_outcome( );
+	showOutcome( );
 	cout << "查询用时" << static_cast<double>( end - start ) / 1000 << "秒" << endl;
 }
 
-auto find_chapter(int const &L) -> string{
+auto findChapter(int const &L) -> string{
 	//chapter表示章节,且一行的字符数均小于25
 	const regex pattern("chapter",regex::icase);
 	for (auto i = L; i >= 0; i--){
@@ -256,9 +256,9 @@ auto find_chapter(int const &L) -> string{
 	return "unknown";
 }
 
-auto find_page(int const &L) -> string{
+auto findPage(int const &L) -> string{
 	//数字表示页码,且一行的字符数均小于等于3
-	for (auto i = L; i < line_no; i++){
+	for (auto i = L; i < lineNo; i++){
 		if (line[i].size( ) >= 4){
 			continue;
 		}
@@ -269,44 +269,44 @@ auto find_page(int const &L) -> string{
 	return "unknown";
 }
 
-auto goto_record(int const &n) -> void{
+auto gotoRecord(int const &n) -> void{
 	if (n > index.size( ) || n == 0){
 		cout << "No existed record! :-(\n";
 		return;
 	}
 	cout << "第" << n << "条记录" << endl;
-	const auto temp_line = index[n - 1].get_line( );
-	if (temp_line == 0){
+	const auto tempLine = index[n - 1].getLine( );
+	if (tempLine == 0){
 		cout << line[0] << endl << line[2] << endl << line[4] << endl;
 	}
-	else if (temp_line == line.size( ) - 1){
-		cout << line[temp_line - 4] << endl << line[temp_line - 2] << endl << line[temp_line] << endl;
+	else if (tempLine == line.size( ) - 1){
+		cout << line[tempLine - 4] << endl << line[tempLine - 2] << endl << line[tempLine] << endl;
 	}
 	else{
-		cout << line[temp_line - 2] << endl << line[temp_line] << endl << line[temp_line + 2] << endl;
+		cout << line[tempLine - 2] << endl << line[tempLine] << endl << line[tempLine + 2] << endl;
 	}
 }
 
-auto show_title( ) -> void{
+auto showTitle( ) -> void{
 	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t"
 		<< setw(20) << "章节" << "   \t" << "书名" << endl;
 }
 
-auto show_outcome( ) -> void{
+auto showOutcome( ) -> void{
 	system("cls");
 	info( );
-	if (!item::get_found( )){
+	if (!item::getFound( )){
 		cout << "没有查询到~~" << endl;
 		return;
 	}
-	show_title( );
+	showTitle( );
 	for (auto &i : index){
 		i.output( );
 	}
 	cout << "共查询到" << index.size( ) << "条记录" << endl;
 }
 
-auto show_menu( ) -> void{
+auto showMenu( ) -> void{
 	auto flag = true;
 	while (true){
 		char option[100];
@@ -315,8 +315,8 @@ auto show_menu( ) -> void{
 		if (!strcmp(option,option::search)){
 			index.clear( );
 			item::reset( );
-			cin.getline(str_find,100);
-			item::set_name(str_find);
+			cin.getline(strFind,100);
+			item::setName(strFind);
 			flag = false;
 			search( );
 		}
@@ -326,15 +326,15 @@ auto show_menu( ) -> void{
 				cin.ignore( );
 				continue;
 			}
-			char char_num[10];
-			cin >> char_num;
+			char charNum[10];
+			cin >> charNum;
 			auto n = 0;
 			auto flag1 = false;
-			const auto len_char = strlen(char_num);
-			for (auto i = 0; i < len_char; i++){
-				if (isdigit(char_num[i])){
+			const auto charLen = strlen(charNum);
+			for (auto i = 0; i < charLen; i++){
+				if (isdigit(charNum[i])){
 					n *= 10;
-					n += char_num[i] - '0';
+					n += charNum[i] - '0';
 					flag1 = true;
 				}
 				else{
@@ -343,7 +343,7 @@ auto show_menu( ) -> void{
 				}
 			}
 			if (flag1){
-				goto_record(n); //跳转到第n条记录
+				gotoRecord(n); //跳转到第n条记录
 			}
 			else{
 				cout << "NaN\nPlease input a valid NUMBER!\n";
@@ -356,12 +356,12 @@ auto show_menu( ) -> void{
 			system("cls");
 		}
 		else if (!strcmp(option,option::information)){
-			software_information( );
+			softwareInformation( );
 		}
 		else if (!strcmp(option,option::help)){
-			show_info( );
+			showInfo( );
 		}
-		else if (!strcmp(option,option::strict_on)){
+		else if (!strcmp(option,option::strictOn)){
 			if (strict){
 				cout << "strict mode is already on!\n";
 			}
@@ -370,7 +370,7 @@ auto show_menu( ) -> void{
 				strict = true;
 			}
 		}
-		else if (!strcmp(option,option::strict_off)){
+		else if (!strcmp(option,option::strictOff)){
 			if (!strict){
 				cout << "strict mode is already off!\n";
 			}
@@ -388,11 +388,11 @@ auto show_menu( ) -> void{
 int main( ){
 	SetConsoleTitle(L"哈利波特书籍检索系统");
 	info( ); //显示基本软件名称
-	show_info( ); //显示基本操作
-	show_remind( ); //显示注意事项
+	showInfo( ); //显示基本操作
+	showRemind( ); //显示注意事项
 	initial( ); //初始接受文件信息并存于vector<string>中
-	show_menu( ); //显示操作
-	software_information( );
+	showMenu( ); //显示操作
+	softwareInformation( );
 	cout << "\nEND\n";
 	return 0;
 }
