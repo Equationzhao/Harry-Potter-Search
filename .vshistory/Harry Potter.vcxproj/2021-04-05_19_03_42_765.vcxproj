@@ -143,8 +143,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="源.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="源1.c" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="textSource\hp1.txt" />
