@@ -10,11 +10,11 @@
 
 ​	goto N				  查询第N条记录
 
-​    .clear					清空屏幕
+​    clear					清空屏幕
 
-​	.help					 显示提示
+​	help					 显示提示
 
-​	.info					  显示软件信息
+​	info					  显示软件信息
 
 ​	exit					   退出
 
