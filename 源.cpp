@@ -44,7 +44,6 @@ namespace option{
 	char strict_on[] = "strictOn";
 	char strict_off[] = "strictOff";
 }
-bool strict = false;
 
 auto info( )->void;
 auto software_information( )->void;
@@ -56,6 +55,7 @@ auto show_outcome( ) -> void;
 auto goto_record(int const &) -> void;
 auto find_chapter(int const &)->string;
 auto find_page(int const &)->string;
+auto strict = false;
 
 class item{
 public:
