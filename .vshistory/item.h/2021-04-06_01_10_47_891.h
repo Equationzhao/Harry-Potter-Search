@@ -3,8 +3,8 @@
 #include <iostream>
 #include <string>
 #include <utility>
-#ifndef _ITEM_
-#define _ITEM_
+#ifndef ITEM
+#define ITEM
 class item{
 public:
 	item(int const &pLine,std::string pChapter,std::string pPage)

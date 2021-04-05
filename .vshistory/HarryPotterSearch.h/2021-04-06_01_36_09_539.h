@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _HARRY_POTTER_SEARCH_
-#define _HARRY_POTTER_SEARCH_
+#ifndef HARRY_POTTER_SEARCH
+#define HARRY_POTTER_SEARCH
 #include <string>
 auto info( )->void;
 auto softwareInformation( )->void;
