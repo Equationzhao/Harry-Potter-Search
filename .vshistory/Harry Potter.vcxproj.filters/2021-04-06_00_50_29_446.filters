@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="源.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -52,9 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HarryPotterSearch.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="item.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
