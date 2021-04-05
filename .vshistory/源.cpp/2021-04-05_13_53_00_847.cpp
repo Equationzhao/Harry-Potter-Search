@@ -1,6 +1,6 @@
 ﻿/*
 *Copyright (c) equationzhao All Rights Reserved.
-*版本号： V1.0.0
+*版本号： V1.0.1
 *创建人： equationzhao
 *电子邮箱：equationzhao@foxmail.com
 *创建时间：2021.3.31
@@ -124,6 +124,7 @@ public:
 		name = "";
 	}
 private:
+
 	int id;
 	int line;
 	string page;
@@ -178,11 +179,10 @@ void initial( ){
 			break;
 		}
 	}
-	return;
 }
 
 void search( ){
-	size_t len = strlen(strFind);
+	int len = strlen(strFind);
 	clock_t start,end;
 	start = clock( );
 	for (int n = 0; n < lineNo; n++){
@@ -193,179 +193,180 @@ void search( ){
 					if (strFind[k] != line[n][j + k]){
 						flage = false;
 						break;
+						if (!strict){
+							j += k;//由于人名地名的特殊性,匹配失败的时候可以直接向后移动k位
+						}
+					}
+					if (flage){
+						if (!strict){
+							j += len;//由于人名地名的特殊性,匹配成功后可以直接向后移动len位
+						}
+						item newItem(n,findChapter(n),findPage(n));
+						Index.push_back(newItem);
+					}
+				}
+			}
+		}
+		end = clock( );
+		//showOutcome( );
+		cout << "查询用时" << (double)( end - start ) / 1000 << "秒" << endl;
+	}
+
+	string findChapter(int const &L){
+		//chapter表示章节,且一行的字符数均小于25
+		regex pattern("chapter",regex::icase);
+		for (int i = L; i >= 0; i--){
+			if (line[i].size( ) >= 25){
+				continue;
+			}
+			string::const_iterator strB = line[i].begin( );
+			string::const_iterator strE = line[i].end( );
+			if (regex_search(strB,strE,pattern)){
+				return line[i];
+			}
+		}
+		return "unknown";
+	}
+
+	string findPage(int const &L){
+		//数字表示页码,且一行的字符数均小于等于3
+		for (int i = L; i < line.size( ); i++){
+			if (line[i].size( ) >= 4){
+				continue;
+			}
+			if (isdigit(line[i][0])){
+				return line[i];
+			}
+		}
+		return "unknown";
+	}
+
+	void GotoRecord(int const &n){
+		if (n > Index.size( ) || n == 0){
+			cout << "No existed record! :-(\n";
+			return;
+		}
+		else{
+			cout << "第" << n << "条记录" << endl;
+			int tempLine = Index[n - 1].getLine( );
+			if (tempLine == 0){
+				cout << line[0] << endl << line[2] << endl << line[4] << endl;
+			}
+			else if (tempLine == line.size( ) - 1){
+				cout << line[tempLine - 4] << endl << line[tempLine - 2] << endl << line[tempLine] << endl;
+			}
+			else{
+				cout << line[tempLine - 2] << endl << line[tempLine] << endl << line[tempLine + 2] << endl;
+			}
+		}
+	}
+
+	void showTitle( ){
+		cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t" << setw(20) << "章节" << "   \t" << "书名" << endl;
+		return;
+	}
+
+	void showOutcome( ){
+		system("cls");
+		info( );
+		if (!item::getFound( )){
+			cout << "没有查询到~~" << endl;
+			return;
+		}
+		showTitle( );
+		for (int i = 0; i < Index.size( ); i++){
+			Index[i].output( );
+		}
+		cout << "共查询到" << Index.size( ) << "条记录" << endl;
+		return;
+	}
+
+	void showMenu( ){
+		bool flage = true;
+		while (1){
+			char option[10];
+			cin >> option;
+			cin.ignore( );//For cin.getline() will recive '\n'
+			if (!strcmp(option,Search)){
+				Index.clear( );
+				item::reset( );
+				cin.getline(strFind,20);
+				item::setName(strFind);
+				flage = false;
+				search( );
+			}
+			else if (!strcmp(option,Goto)){
+				if (flage){
+					cout << "No existed record! :-(\n";
+					cin.ignore( );
+					continue;
+				}
+				char charNum[10];
+				cin >> charNum;
+				int flage = false;
+				int n = 0;
+				for (int i = 0; i < strlen(charNum); i++){
+					if (isdigit(charNum[i])){
+						n *= 10;
+						n += charNum[i] - '0';
+						flage = true;
+					}
+					else{
+						flage = false;
+						break;
 					}
 				}
 				if (flage){
-					if (!strict){
-						j += len;
-					}
-					item newItem(n,findChapter(n),findPage(n));
-					Index.push_back(newItem);
-				}
-			}
-		}
-	}
-	end = clock( );
-	showOutcome( );
-	cout << "查询用时" << (double)( end - start ) / 1000 << "秒" << endl;
-	return;
-}
-
-string findChapter(int const &L){
-	//chapter表示章节,且一行的字符数均小于25
-	regex pattern("chapter",regex::icase);
-	for (int i = L; i >= 0; i--){
-		if (line[i].size( ) >= 25){
-			continue;
-		}
-		string::const_iterator strB = line[i].begin( );
-		string::const_iterator strE = line[i].end( );
-		if (regex_search(strB,strE,pattern)){
-			return line[i];
-		}
-	}
-	return "unknown";
-}
-
-string findPage(int const &L){
-	//数字表示页码,且一行的字符数均小于等于3
-	for (int i = L; i < line.size( ); i++){
-		if (line[i].size( ) >= 4){
-			continue;
-		}
-		if (isdigit(line[i][0])){
-			return line[i];
-		}
-	}
-	return "unknown";
-}
-
-void GotoRecord(int const &n){
-	if (n > Index.size( ) || n == 0){
-		cout << "No existed record! :-(\n";
-		return;
-	}
-	else{
-		cout << "第" << n << "条记录" << endl;
-		int tempLine = Index[n - 1].getLine( );
-		if (tempLine == 0){
-			cout << line[0] << endl << line[2] << endl << line[4] << endl;
-		}
-		else if (tempLine == line.size( ) - 1){
-			cout << line[tempLine - 4] << endl << line[tempLine - 2] << endl << line[tempLine] << endl;
-		}
-		else{
-			cout << line[tempLine - 2] << endl << line[tempLine] << endl << line[tempLine + 2] << endl;
-		}
-	}
-	return;
-}
-
-void showTitle( ){
-	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t"
-		<< setw(20) << "章节" << "   \t" << "书名" << endl;
-	return;
-}
-
-void showOutcome( ){
-	system("cls");
-	info( );
-	if (!item::getFound( )){
-		cout << "没有查询到~~" << endl;
-		return;
-	}
-	showTitle( );
-	for (int i = 0; i < Index.size( ); i++){
-		Index[i].output( );
-	}
-	cout << "共查询到" << Index.size( ) << "条记录" << endl;
-	return;
-}
-void showMenu( ){
-	bool flage = true;
-	while (1){
-		char option[10];
-		cin >> option;
-		cin.ignore( );//For cin.getline() will recive '\n'
-		if (!strcmp(option,Search)){
-			Index.clear( );
-			item::reset( );
-			cin.getline(strFind,20);
-			item::setName(strFind);
-			flage = false;
-			search( );
-		}
-		else if (!strcmp(option,Goto)){
-			if (flage){
-				cout << "No existed record! :-(\n";
-				cin.ignore( );
-				continue;
-			}
-			char charNum[10];
-			cin >> charNum;
-			int n = 0;
-			size_t flage = false,lenChar = strlen(charNum);
-			for (int i = 0; i < lenChar; i++){
-				if (isdigit(charNum[i])){
-					n *= 10;
-					n += charNum[i] - '0';
-					flage = true;
+					GotoRecord(n);//跳转到第n条记录
 				}
 				else{
-					flage = false;
-					break;
+					cout << "NaN\nPlease input a valid NUMBER!\n";
 				}
 			}
-			if (flage){
-				GotoRecord(n);//跳转到第n条记录
+			else if (!strcmp(option,Exit)){
+				return;
+			}
+			else if (!strcmp(option,Clear)){
+				system("cls");
+			}
+			else if (!strcmp(option,information)){
+				Softwareinformation( );
+			}
+			else if (!strcmp(option,Help)){
+				showInfo( );
+			}
+			else if (!strcmp(option,StrictOn)){
+				if (strict){
+					cout << "strict mode is already on!\n";
+				}
+				else{
+					cout << "strict mode on\n";
+					strict = true;
+				}
+			}
+			else if (!strcmp(option,StrictOff)){
+				if (!strict){
+					cout << "strict mode is already off!\n";
+				}
+				else{
+					strict = false;
+					cout << "strict mode off\n";
+				}
 			}
 			else{
-				cout << "NaN\nPlease input a valid NUMBER!\n";
+				cout << "\nError\nType in \'help\' to get more information\n";
 			}
-		}
-		else if (!strcmp(option,Exit)){
-			return;
-		}
-		else if (!strcmp(option,Clear)){
-			system("cls");
-		}
-		else if (!strcmp(option,information)){
-			Softwareinformation( );
-		}
-		else if (!strcmp(option,Help)){
-			showInfo( );
-		}
-		else if (!strcmp(option,StrictOn)){
-			if (strict){
-				cout << "strict mode is already on!\n";
-			}
-			else{
-				cout << "strict mode on\n";
-				strict = true;
-			}
-		}
-		else if (!strcmp(option,StrictOff)){
-			if (!strict){
-				cout << "strict mode is already off!\n";
-			}
-			else{
-				strict = false;
-				cout << "strict mode off\n";
-			}
-		}
-		else{
-			cout << "\nError\nType in \'help\' to get more information\n";
 		}
 	}
-}
-int main( ){
-	SetConsoleTitle(L"哈利波特书籍检索系统");
-	info( );//显示基本软件名称
-	showInfo( );//显示基本操作
-	showRemind( );//显示注意事项
-	initial( );//初始接受文件信息并存于vector<string>中
-	showMenu( );//显示操作
-	Softwareinformation( );
-	cout << "\nEND\n";
-	return 0;
-}
+
+	int main( ){
+		SetConsoleTitle(L"哈利波特书籍检索系统");
+		info( );//显示基本软件名称
+		showInfo( );//显示基本操作
+		showRemind( );//显示注意事项
+		initial( );//初始接受文件信息并存于vector<string>中
+		showMenu( );//显示操作
+		Softwareinformation( );
+		cout << "\nEND\n";
+		return 0;
+	}

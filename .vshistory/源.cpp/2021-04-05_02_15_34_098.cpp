@@ -1,6 +1,6 @@
 ﻿/*
 *Copyright (c) equationzhao All Rights Reserved.
-*版本号： V1.0.0
+*版本号： V1.0.1
 *创建人： equationzhao
 *电子邮箱：equationzhao@foxmail.com
 *创建时间：2021.3.31
@@ -124,6 +124,7 @@ public:
 		name = "";
 	}
 private:
+
 	int id;
 	int line;
 	string page;
@@ -178,11 +179,10 @@ void initial( ){
 			break;
 		}
 	}
-	return;
 }
 
 void search( ){
-	size_t len = strlen(strFind);
+	int len = strlen(strFind);
 	clock_t start,end;
 	start = clock( );
 	for (int n = 0; n < lineNo; n++){
@@ -193,12 +193,12 @@ void search( ){
 					if (strFind[k] != line[n][j + k]){
 						flage = false;
 						break;
+						j += k;//由于人名地名的特殊性,匹配失败的时候可以直接向后移动k位
 					}
 				}
 				if (flage){
-					if (!strict){
-						j += len;
-					}
+					//cout << line[n] << endl;
+					j += len;//由于人名地名的特殊性,匹配成功后可以直接向后移动len位
 					item newItem(n,findChapter(n),findPage(n));
 					Index.push_back(newItem);
 				}
@@ -206,9 +206,8 @@ void search( ){
 		}
 	}
 	end = clock( );
-	showOutcome( );
+	//showOutcome( );
 	cout << "查询用时" << (double)( end - start ) / 1000 << "秒" << endl;
-	return;
 }
 
 string findChapter(int const &L){
@@ -258,12 +257,10 @@ void GotoRecord(int const &n){
 			cout << line[tempLine - 2] << endl << line[tempLine] << endl << line[tempLine + 2] << endl;
 		}
 	}
-	return;
 }
 
 void showTitle( ){
-	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t"
-		<< setw(20) << "章节" << "   \t" << "书名" << endl;
+	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t" << setw(20) << "章节" << "   \t" << "书名" << endl;
 	return;
 }
 
@@ -281,6 +278,7 @@ void showOutcome( ){
 	cout << "共查询到" << Index.size( ) << "条记录" << endl;
 	return;
 }
+
 void showMenu( ){
 	bool flage = true;
 	while (1){
@@ -303,9 +301,9 @@ void showMenu( ){
 			}
 			char charNum[10];
 			cin >> charNum;
+			int flage = false;
 			int n = 0;
-			size_t flage = false,lenChar = strlen(charNum);
-			for (int i = 0; i < lenChar; i++){
+			for (int i = 0; i < strlen(charNum); i++){
 				if (isdigit(charNum[i])){
 					n *= 10;
 					n += charNum[i] - '0';
@@ -354,10 +352,11 @@ void showMenu( ){
 			}
 		}
 		else{
-			cout << "\nError\nType in \'help\' to get more information\n";
+			cout << "\nError\nType in .help to get more information\n";
 		}
 	}
 }
+
 int main( ){
 	SetConsoleTitle(L"哈利波特书籍检索系统");
 	info( );//显示基本软件名称

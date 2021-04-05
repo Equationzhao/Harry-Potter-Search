@@ -151,7 +151,7 @@ void Softwareinformation( ){
 }
 void showInfo( ){
 	cout << "输入\"search NAME\",查询为\"NAME\"的人名/地名\n输入\"goto N\",查询第N条记录\n输入\"exit\"退出查询系统\n"
-		<< "使用clear命令清除屏幕上的内容\n使用help命令以显示此提示\n使用info命令显示软件相关信息\n使用strictOn/strictOff命令启用/关闭严格模式\n\n";
+		<< "使用clear命令清除屏幕上的内容\n使用help命令以显示此提示\n使用info命令显示软件相关信息\n\n";
 }
 void showRemind( ){
 	cout << "注意:\n\t1.请不要在没有查询过时使用goto,会造成错误\n\t2.本软件对空格敏感,例如\"Harry Potter\"与\"Harry   Potter \"是不同的\n"
@@ -365,7 +365,6 @@ int main( ){
 	showRemind( );//显示注意事项
 	initial( );//初始接受文件信息并存于vector<string>中
 	showMenu( );//显示操作
-	Softwareinformation( );
 	cout << "\nEND\n";
 	return 0;
 }

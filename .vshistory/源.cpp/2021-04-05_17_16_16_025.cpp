@@ -365,7 +365,6 @@ int main( ){
 	showRemind( );//显示注意事项
 	initial( );//初始接受文件信息并存于vector<string>中
 	showMenu( );//显示操作
-	Softwareinformation( );
 	cout << "\nEND\n";
 	return 0;
 }

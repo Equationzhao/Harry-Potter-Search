@@ -1,6 +1,6 @@
 ﻿/*
 *Copyright (c) equationzhao All Rights Reserved.
-*版本号： V1.0.0
+*版本号： V1.0.1
 *创建人： equationzhao
 *电子邮箱：equationzhao@foxmail.com
 *创建时间：2021.3.31
@@ -41,6 +41,7 @@ void Softwareinformation( );
 void initial( );
 void showMenu( );
 void search( );
+void computeBadCharTable(int *,int);
 void showTitle( );
 void showOutcome( );
 void GotoRecord(int const &);
@@ -124,6 +125,7 @@ public:
 		name = "";
 	}
 private:
+
 	int id;
 	int line;
 	string page;
@@ -178,11 +180,11 @@ void initial( ){
 			break;
 		}
 	}
-	return;
 }
 
 void search( ){
-	size_t len = strlen(strFind);
+	int len = strlen(strFind);
+	int badCharTable[26];
 	clock_t start,end;
 	start = clock( );
 	for (int n = 0; n < lineNo; n++){
@@ -194,22 +196,30 @@ void search( ){
 						flage = false;
 						break;
 					}
-				}
-				if (flage){
-					if (!strict){
-						j += len;
+					if (flage){
+						if (!strict)
+							j += len;//由于人名地名的特殊性,匹配成功后可以直接向后移动len位
+						item newItem(n,findChapter(n),findPage(n));
+						Index.push_back(newItem);
 					}
-					item newItem(n,findChapter(n),findPage(n));
-					Index.push_back(newItem);
 				}
 			}
 		}
+		end = clock( );
 	}
-	end = clock( );
+
 	showOutcome( );
 	cout << "查询用时" << (double)( end - start ) / 1000 << "秒" << endl;
-	return;
 }
+
+//void computeBadCharTable(int *table,int len){
+//	for (int i = 0; i < 150; i++){
+//		table[i] = len;
+//	}
+//	for (int i = 0; i < len - 1; i++){
+//		table[strFind[i]] = len - 1 - i;
+//	}
+//}
 
 string findChapter(int const &L){
 	//chapter表示章节,且一行的字符数均小于25
@@ -258,12 +268,10 @@ void GotoRecord(int const &n){
 			cout << line[tempLine - 2] << endl << line[tempLine] << endl << line[tempLine + 2] << endl;
 		}
 	}
-	return;
 }
 
 void showTitle( ){
-	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t"
-		<< setw(20) << "章节" << "   \t" << "书名" << endl;
+	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t" << setw(20) << "章节" << "   \t" << "书名" << endl;
 	return;
 }
 
@@ -281,6 +289,7 @@ void showOutcome( ){
 	cout << "共查询到" << Index.size( ) << "条记录" << endl;
 	return;
 }
+
 void showMenu( ){
 	bool flage = true;
 	while (1){
@@ -303,8 +312,7 @@ void showMenu( ){
 			}
 			char charNum[10];
 			cin >> charNum;
-			int n = 0;
-			size_t flage = false,lenChar = strlen(charNum);
+			int flage = false,n = 0,lenChar = strlen(charNum);
 			for (int i = 0; i < lenChar; i++){
 				if (isdigit(charNum[i])){
 					n *= 10;
@@ -358,6 +366,7 @@ void showMenu( ){
 		}
 	}
 }
+
 int main( ){
 	SetConsoleTitle(L"哈利波特书籍检索系统");
 	info( );//显示基本软件名称

@@ -29,9 +29,9 @@ vector<item> Index;
 char Exit[] = "exit";
 char Search[] = "search";
 char Goto[] = "goto";
-char Help[] = "help";
-char Clear[] = "clear";
-char information[] = "info";
+char Help[] = ".help";
+char Clear[] = ".clear";
+char information[] = ".info";
 char StrictOn[] = "strictOn";
 char StrictOff[] = "strictOff";
 bool strict = false;
@@ -151,11 +151,10 @@ void Softwareinformation( ){
 }
 void showInfo( ){
 	cout << "输入\"search NAME\",查询为\"NAME\"的人名/地名\n输入\"goto N\",查询第N条记录\n输入\"exit\"退出查询系统\n"
-		<< "使用clear命令清除屏幕上的内容\n使用help命令以显示此提示\n使用info命令显示软件相关信息\n使用strictOn/strictOff命令启用/关闭严格模式\n\n";
+		<< "使用.clear命令清除屏幕上的内容\n使用.help命令以显示此提示\n使用.info命令显示软件相关信息\n\n";
 }
 void showRemind( ){
-	cout << "注意:\n\t1.请不要在没有查询过时使用goto,会造成错误\n\t2.本软件对空格敏感,例如\"Harry Potter\"与\"Harry   Potter \"是不同的\n"
-		<< "\t3.本软件默认关闭严格搜索模式,在检索人名/地名时影响较小,但在检索其他字符串时可能存在误差\n\t  若要启用/关闭严格模式,请使用strictOn/strictOff命令\n";
+	cout << "注意:\n\t1.请不要在没有查询过时使用goto,会造成错误\n\t2.本软件对空格敏感,例如\"Harry Potter\"与\"Harry   Potter \"是不同的\n";
 }
 void initial( ){
 	file[0].open("./textSource/hp1.txt",std::ifstream::in);
@@ -182,7 +181,7 @@ void initial( ){
 }
 
 void search( ){
-	size_t len = strlen(strFind);
+	int len = strlen(strFind);
 	clock_t start,end;
 	start = clock( );
 	for (int n = 0; n < lineNo; n++){
@@ -303,8 +302,7 @@ void showMenu( ){
 			}
 			char charNum[10];
 			cin >> charNum;
-			int n = 0;
-			size_t flage = false,lenChar = strlen(charNum);
+			int flage = false,n = 0,lenChar = strlen(charNum);
 			for (int i = 0; i < lenChar; i++){
 				if (isdigit(charNum[i])){
 					n *= 10;
@@ -365,7 +363,6 @@ int main( ){
 	showRemind( );//显示注意事项
 	initial( );//初始接受文件信息并存于vector<string>中
 	showMenu( );//显示操作
-	Softwareinformation( );
 	cout << "\nEND\n";
 	return 0;
 }
