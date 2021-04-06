@@ -5,7 +5,7 @@
 *电子邮箱：equationzhao@foxmail.com
 *创建时间：2021.3.31
 *描述：USTB程序设计实践Ⅰ作业
-*Public Repository:https://github.com/Equationzhao/Harry-Potter-Search
+*Private Repository:https://github.com/Equationzhao/Harry-Potter-Search
 */
 
 #include <array>
@@ -74,10 +74,8 @@ auto initial( ) -> void{
 	file[5].open("./textSource/hp6.txt",std::ifstream::in);
 	file[6].open("./textSource/hp7.txt",std::ifstream::in);
 	file[7].open("./textSource/hp8.txt",std::ifstream::in);
-	for (auto &istr : file)
-	{
-		while (getline(istr,textLine[lineNo]))
-		{
+	for (auto &istr : file){
+		while (getline(istr,textLine[lineNo])){
 			lineNo++;
 		}
 		istr.close( );
@@ -101,29 +99,18 @@ auto gotoSearch( ) -> void{
 auto search( ) -> void{
 	const auto len = strlen(strFind);
 	const auto start = clock( );
-	for (auto n = 0; n < lineNo; n++)
-	{
-		for (auto j = 0; j < textLine[n].size( ); j++)
-		{
-			if (strFind[0] == textLine[n][j])
-			{
+	for (auto n = 0; n < lineNo; n++){
+		for (size_t j = 0; j < textLine[n].size( ); j++){
+			if (strFind[0] == textLine[n][j]){
 				int flag = true;
-				for (auto k = 1; k < len; k++)
-				{
-					if (strFind[k] != textLine[n][j + k])
-					{
+				for (size_t k = 1; k < len; k++){
+					if (strFind[k] != textLine[n][k + j]){
 						flag = false;
-						if (!strict)
-						{
-							j += k;//strictOff
-						}
 						break;
 					}
 				}
-				if (flag)
-				{
-					if (!strict)
-					{
+				if (flag){
+					if (!strict){
 						j += len;//strictOff
 					}
 					index.emplace_back(n,findChapter(n),findPage(n));
@@ -150,14 +137,12 @@ auto showTitle( ) -> void{
 auto showOutcome( ) -> void{
 	system("cls");
 	info( );
-	if (!item::getFound( ))
-	{
+	if (!item::getFound( )){
 		cout << "没有查询到~~" << endl;
 		return;
 	}
 	showTitle( );
-	for (const auto &i : index)
-	{
+	for (const auto &i : index){
 		i.output( );
 	}
 	cout << "共查询到" << index.size( ) << "条记录" << endl;
@@ -170,14 +155,11 @@ auto showOutcome( ) -> void{
 auto findChapter(int const &l) -> string{
 	//chapter表示章节,且一行的字符数均小于25
 	const regex pattern("chapter",regex::icase);
-	for (auto i = l; i >= 0; i--)
-	{
-		if (textLine[i].size( ) >= 25)
-		{
+	for (auto i = l; i >= 0; i--){
+		if (textLine[i].size( ) >= 25){
 			continue;
 		}
-		else if (regex_search(textLine[i].begin( ),textLine[i].end( ),pattern))
-		{
+		else if (regex_search(textLine[i].begin( ),textLine[i].end( ),pattern)){
 			return textLine[i];
 		}
 	}
@@ -191,14 +173,11 @@ auto findChapter(int const &l) -> string{
  */
 auto findPage(int const &l) -> string{
 	//数字表示页码,且一行的字符数均小于等于3
-	for (auto i = l; i < lineNo; i++)
-	{
-		if (textLine[i].size( ) >= 4)
-		{
+	for (auto i = l; i < lineNo; i++){
+		if (textLine[i].size( ) >= 4){
 			continue;
 		}
-		if (isdigit(textLine[i][0]))
-		{
+		if (isdigit(textLine[i][0])){
 			return textLine[i];
 		}
 	}
@@ -213,16 +192,13 @@ auto findPage(int const &l) -> string{
  */
 auto checkNum(char const charNum[],bool &flag1,int &n) -> void{
 	const auto charLen = strlen(charNum);
-	for (auto i = 0; i < charLen; i++)
-	{
-		if (isdigit(charNum[i]))
-		{
+	for (auto i = 0; i < charLen; i++){
+		if (isdigit(charNum[i])){
 			n *= 10;
 			n += charNum[i] - '0';
 			flag1 = true;
 		}
-		else
-		{
+		else{
 			flag1 = false;
 			break;
 		}
@@ -234,23 +210,19 @@ auto checkNum(char const charNum[],bool &flag1,int &n) -> void{
  * param n
  */
 auto gotoRecord(int const &n) -> void{
-	if (n > index.size( ) || n == 0)
-	{
+	if (n > index.size( ) || n == 0){
 		cout << "No existed record! :-(\n";
 		return;
 	}
 	cout << "第" << n << "条记录" << endl;
 	const auto tempLine = static_cast<size_t>( index[n - 1].getLineNum( ) );
-	if (tempLine == 0)
-	{
+	if (tempLine == 0){
 		cout << textLine[0] << endl << textLine[2] << endl << textLine[4] << endl;
 	}
-	else if (tempLine == textLine.size( ) - 1)
-	{
+	else if (tempLine == textLine.size( ) - 1){
 		cout << textLine[tempLine - 4] << endl << textLine[tempLine - 2] << endl << textLine[tempLine] << endl;
 	}
-	else
-	{
+	else{
 		cout << textLine[tempLine - 2] << endl << textLine[tempLine] << endl << textLine[tempLine + 2] << endl;
 	}
 }
@@ -260,83 +232,65 @@ auto gotoRecord(int const &n) -> void{
  */
 auto showMenu( ) -> void{
 	auto flag = true;
-	while (true)
-	{
+	while (true){
 		char option[100];
 		cin >> option;
 		cin.ignore( ); //For cin.getline() will recive '\n'
-		if (!strcmp(option,option::search))
-		{
+		if (!strcmp(option,option::search)){
 			gotoSearch( );
 			flag = false;
 		}
-		else if (!strcmp(option,option::Goto))
-		{
-			if (flag)
-			{
+		else if (!strcmp(option,option::Goto)){
+			if (flag){
 				cout << "No existed record! :-(\n";
 				cin.ignore( );
 				continue;
 			}
-			else
-			{
+			else{
 				char charNum[10];
 				cin >> charNum;
 				auto n = 0;
 				auto flag1 = false;
 				checkNum(charNum,flag1,n);
-				if (flag1)
-				{
+				if (flag1){
 					gotoRecord(n); //跳转到第n条记录
 				}
-				else
-				{
+				else{
 					cout << "NaN\nPlease input a valid NUMBER!\n";
 				}
 			}
 		}
-		else if (!strcmp(option,option::exit))
-		{
+		else if (!strcmp(option,option::exit)){
 			return;
 		}
-		else if (!strcmp(option,option::clear))
-		{
+		else if (!strcmp(option,option::clear)){
 			system("cls");
 		}
-		else if (!strcmp(option,option::information))
-		{
+		else if (!strcmp(option,option::information)){
 			softwareInformation( );
 		}
-		else if (!strcmp(option,option::help))
-		{
+		else if (!strcmp(option,option::help)){
 			showInfo( );
 		}
-		else if (!strcmp(option,option::strictOn))
-		{
-			if (strict)
-			{
+		else if (!strcmp(option,option::strictOn)){
+			if (strict){
 				cout << "strict mode is already on!\n";
 			}
-			else
-			{
+			else{
 				cout << "strict mode on\n";
 				strict = true;
 			}
 		}
-		else if (!strcmp(option,option::strictOff))
-		{
-			if (!strict)
-			{
+		else if (!strcmp(option,option::strictOff)){
+			if (!strict){
 				cout << "strict mode is already off!\n";
 			}
-			else
-			{
+			else{
 				strict = false;
 				cout << "strict mode off\n";
 			}
 		}
-		else
-		{
+		else{
 			cout << "\nError\nType in \'help\' to get more information\n";
 		}
 	}

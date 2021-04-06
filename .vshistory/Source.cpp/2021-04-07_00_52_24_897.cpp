@@ -5,7 +5,7 @@
 *电子邮箱：equationzhao@foxmail.com
 *创建时间：2021.3.31
 *描述：USTB程序设计实践Ⅰ作业
-*Public Repository:https://github.com/Equationzhao/Harry-Potter-Search
+*Private Repository:https://github.com/Equationzhao/Harry-Potter-Search
 */
 
 #include <array>
@@ -110,7 +110,7 @@ auto search( ) -> void{
 				int flag = true;
 				for (auto k = 1; k < len; k++)
 				{
-					if (strFind[k] != textLine[n][j + k])
+					if (strFind[k] != textLine[n][k + j])
 					{
 						flag = false;
 						if (!strict)
