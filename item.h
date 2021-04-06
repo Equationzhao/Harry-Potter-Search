@@ -5,41 +5,42 @@
 #include <utility>
 #ifndef _ITEM_
 #define _ITEM_
+
 class item{
 public:
 	item(int const &pLine,std::string pChapter,std::string pPage)
-		: line_(pLine),page_(std::move(pPage)),
+		: lineNum_(pLine),page_(std::move(pPage)),
 		chapter_(std::move(pChapter)){
 		idGenerator_++;
 		id_ = idGenerator_;
-		if (line_ == -1){
+		if (lineNum_ == -1){
 			found_ = false;
 		}
 		else{
 			found_ = true;
-			if (0 <= line_ && line_ < 78){
+			if (0 <= lineNum_ && lineNum_ < 78){
 				book_ = "J.K.Rowling - HP 0 - Harry Potter Prequel";
 			}
-			else if (78 <= line_ && line_ < 9810){
+			else if (78 <= lineNum_ && lineNum_ < 9810){
 				book_ = "HP7--Harry_Potter_and_the_Deathly_Hallows_Book_7";
 			}
-			else if (9810 <= line_ && line_ < 19814){
+			else if (9810 <= lineNum_ && lineNum_ < 19814){
 				book_ = "J.K.Rowling - HP 3 - Harry Potter and the Prisoner of Azkaban";
 			}
-			else if (19814 <= line_ && line_ < 24162){
+			else if (19814 <= lineNum_ && lineNum_ < 24162){
 				book_ = "HP2--Harry_Potter_and_the_Chamber_of_Secrets_Book_2";
 			}
-			else if (24162 <= line_ && line_ < 24867){
+			else if (24162 <= lineNum_ && lineNum_ < 24867){
 				book_ = "J.K.Rowling - Quidditch Through the Ages";
 			}
-			else if (24867 <= line_ && line_ < 26004){
+			else if (24867 <= lineNum_ && lineNum_ < 26004){
 				book_ = "J.K.Rowling - The Tales of Beedle the Bard";
 			}
-			else if (26004 <= line_ && line_ < 39616){
+			else if (26004 <= lineNum_ && lineNum_ < 39616){
 				book_ = "J.K.Rowling - HP 6 - Harry Potter and the Half - Blood Prince";
 			}
 
-			else if (39616 <= line_ && line_ < 49447){
+			else if (39616 <= lineNum_ && lineNum_ < 49447){
 				book_ = "J.K.Rowling - HP 4 - Harry Potter and the Goblet of Fire";
 			}
 		}
@@ -57,15 +58,15 @@ public:
 	}
 
 	void setLine(int const &l){
-		line_ = l;
+		lineNum_ = l;
 	}
 
 	static void setName(std::string const &pName){
 		name_ = pName;
 	}
 
-	[[nodiscard]] int getLine( ) const{
-		return line_;
+	[[nodiscard]] int getLineNum( ) const{
+		return lineNum_;
 	}
 
 	[[nodiscard]] std::string getPaper( ) const{
@@ -99,7 +100,7 @@ public:
 
 private:
 	int id_;
-	int line_;
+	int lineNum_;
 	std::string page_;
 	std::string chapter_;
 	std::string book_;

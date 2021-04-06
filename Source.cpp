@@ -8,6 +8,7 @@
 *Private Repository:https://github.com/Equationzhao/Harry-Potter-Search
 */
 
+// ReSharper disable All
 #include <array>
 #include <cstring>
 #include <ctime>
@@ -29,12 +30,11 @@ int lineNo = 0;
 /**
  * brief 用于储存file中每行的字符串
  */
-vector<string> line(50000);
+vector<string> textLine(50000);
 /**
  * brief 用于存储每条记录的索引
  */
 vector<item> index;
-
 auto info( ) -> void{
 	cout << "哈利波特书籍检索系统v1.0.1\n";
 }
@@ -60,7 +60,6 @@ auto showRemind( ) -> void{
 
 auto initial( ) -> void{
 	array<ifstream,8> file;
-	//shared_ptr<ifstream> file;
 	file[0].open("./textSource/hp1.txt",std::ifstream::in);
 	file[1].open("./textSource/hp2.txt",std::ifstream::in);
 	file[2].open("./textSource/hp3.txt",std::ifstream::in);
@@ -69,9 +68,8 @@ auto initial( ) -> void{
 	file[5].open("./textSource/hp6.txt",std::ifstream::in);
 	file[6].open("./textSource/hp7.txt",std::ifstream::in);
 	file[7].open("./textSource/hp8.txt",std::ifstream::in);
-	auto i = 0;
 	for (auto &istr : file){
-		while (getline(istr,line[lineNo])){
+		while (getline(istr,textLine[lineNo])){
 			lineNo++;
 		}
 		istr.close( );
@@ -90,11 +88,11 @@ auto search( ) -> void{
 	const auto len = strlen(strFind);
 	const auto start = clock( );
 	for (auto n = 0; n < lineNo; n++){
-		for (auto j = 0; j < line[n].size( ); j++){
-			if (strFind[0] == line[n][j]){
+		for (size_t j = 0; j < textLine[n].size( ); j++){
+			if (strFind[0] == textLine[n][j]){
 				int flag = true;
-				for (auto k = 1; k < len; k++){
-					if (strFind[k] != line[n][k + j]){
+				for (size_t k = 1; k < len; k++){
+					if (strFind[k] != textLine[n][k + j]){
 						flag = false;
 						break;
 					}
@@ -110,7 +108,7 @@ auto search( ) -> void{
 	}
 	const auto end = clock( );
 	showOutcome( );
-	cout << "查询用时" << static_cast<double>( end - start ) / 1000 << "秒" << endl;
+	cout << "查询用时" << ( (double)end - (double)start ) / 1000 << "秒" << endl;
 }
 
 auto showTitle( ) -> void{
@@ -136,13 +134,13 @@ auto findChapter(int const &l) -> string{
 	//chapter表示章节,且一行的字符数均小于25
 	const regex pattern("chapter",regex::icase);
 	for (auto i = l; i >= 0; i--){
-		if (line[i].size( ) >= 25){
+		if (textLine[i].size( ) >= 25){
 			continue;
 		}
-		const string::const_iterator strB = line[i].begin( );
-		const string::const_iterator strE = line[i].end( );
+		const string::const_iterator strB = textLine[i].begin( );
+		const string::const_iterator strE = textLine[i].end( );
 		if (regex_search(strB,strE,pattern)){
-			return line[i];
+			return textLine[i];
 		}
 	}
 	return "unknown";
@@ -151,11 +149,11 @@ auto findChapter(int const &l) -> string{
 auto findPage(int const &l) -> string{
 	//数字表示页码,且一行的字符数均小于等于3
 	for (auto i = l; i < lineNo; i++){
-		if (line[i].size( ) >= 4){
+		if (textLine[i].size( ) >= 4){
 			continue;
 		}
-		if (isdigit(line[i][0])){
-			return line[i];
+		if (isdigit(textLine[i][0])){
+			return textLine[i];
 		}
 	}
 	return "unknown";
@@ -182,17 +180,18 @@ auto gotoRecord(int const &n) -> void{
 		return;
 	}
 	cout << "第" << n << "条记录" << endl;
-	const auto tempLine = index[n - 1].getLine( );
+	const auto tempLine = static_cast<size_t>( index[n - 1].getLineNum( ) );
 	if (tempLine == 0){
-		cout << line[0] << endl << line[2] << endl << line[4] << endl;
+		cout << textLine[0] << endl << textLine[2] << endl << textLine[4] << endl;
 	}
-	else if (tempLine == line.size( ) - 1){
-		cout << line[tempLine - 4] << endl << line[tempLine - 2] << endl << line[tempLine] << endl;
+	else if (tempLine == textLine.size( ) - 1){
+		cout << textLine[tempLine - 4] << endl << textLine[tempLine - 2] << endl << textLine[tempLine] << endl;
 	}
 	else{
-		cout << line[tempLine - 2] << endl << line[tempLine] << endl << line[tempLine + 2] << endl;
+		cout << textLine[tempLine - 2] << endl << textLine[tempLine] << endl << textLine[tempLine + 2] << endl;
 	}
 }
+
 auto showMenu( ) -> void{
 	auto flag = true;
 	while (true){

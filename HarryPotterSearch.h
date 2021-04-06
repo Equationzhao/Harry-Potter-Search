@@ -14,16 +14,16 @@ auto checkNum(char const charNum[],bool &flag1,int &n) -> void;
 auto gotoRecord(int const &) -> void;
 auto findChapter(int const &)->std::string;
 auto findPage(int const &)->std::string;
-inline auto strict = false;
+auto strict = false;
 
 namespace option{
-	inline char exit[] = "exit";
-	inline char search[] = "search";
-	inline char Goto[] = "goto";
-	inline char help[] = "help";
-	inline char clear[] = "clear";
-	inline char information[] = "info";
-	inline char strictOn[] = "strictOn";
-	inline char strictOff[] = "strictOff";
+	char exit[] = "exit";
+	char search[] = "search";
+	char Goto[] = "goto";
+	char help[] = "help";
+	char clear[] = "clear";
+	char information[] = "info";
+	char strictOn[] = "strictOn";
+	char strictOff[] = "strictOff";
 }
 #endif
