@@ -8,7 +8,6 @@
 *Private Repository:https://github.com/Equationzhao/Harry-Potter-Search
 */
 
-#include <array>
 #include <cstring>
 #include <ctime>
 #include <fstream>
@@ -59,8 +58,7 @@ auto showRemind( ) -> void{
 }
 
 auto initial( ) -> void{
-	array<ifstream,8> file;
-	//shared_ptr<ifstream> file;
+	auto *const file = new ifstream[8];
 	file[0].open("./textSource/hp1.txt",std::ifstream::in);
 	file[1].open("./textSource/hp2.txt",std::ifstream::in);
 	file[2].open("./textSource/hp3.txt",std::ifstream::in);
@@ -70,20 +68,18 @@ auto initial( ) -> void{
 	file[6].open("./textSource/hp7.txt",std::ifstream::in);
 	file[7].open("./textSource/hp8.txt",std::ifstream::in);
 	auto i = 0;
-	for (auto &istr : file){
-		while (getline(istr,line[lineNo])){
+	while (true){
+		while (getline(file[i],line[lineNo])){
+			//cout << line[lineNo] << endl;
 			lineNo++;
 		}
-		istr.close( );
+		file[i].close( );
+		i++;
+		if (i == 8){
+			break;
+		}
 	}
-}
-
-auto gotoSearch( ) -> void{
-	index.clear( );
-	item::reset( );
-	cin.getline(strFind,100);
-	item::setName(strFind);
-	search( );
+	delete[]file;
 }
 
 auto search( ) -> void{
@@ -103,7 +99,8 @@ auto search( ) -> void{
 					if (!strict){
 						j += len;
 					}
-					index.emplace_back(n,findChapter(n),findPage(n));
+					item newItem(n,findChapter(n),findPage(n));
+					index.push_back(newItem);
 				}
 			}
 		}
@@ -111,25 +108,6 @@ auto search( ) -> void{
 	const auto end = clock( );
 	showOutcome( );
 	cout << "查询用时" << static_cast<double>( end - start ) / 1000 << "秒" << endl;
-}
-
-auto showTitle( ) -> void{
-	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t"
-		<< setw(20) << "章节" << "   \t" << "书名" << endl;
-}
-
-auto showOutcome( ) -> void{
-	system("cls");
-	info( );
-	if (!item::getFound( )){
-		cout << "没有查询到~~" << endl;
-		return;
-	}
-	showTitle( );
-	for (const auto &i : index){
-		i.output( );
-	}
-	cout << "共查询到" << index.size( ) << "条记录" << endl;
 }
 
 auto findChapter(int const &l) -> string{
@@ -161,21 +139,6 @@ auto findPage(int const &l) -> string{
 	return "unknown";
 }
 
-auto checkNum(char const charNum[],bool &flag1,int &n) -> void{
-	const auto charLen = strlen(charNum);
-	for (auto i = 0; i < charLen; i++){
-		if (isdigit(charNum[i])){
-			n *= 10;
-			n += charNum[i] - '0';
-			flag1 = true;
-		}
-		else{
-			flag1 = false;
-			break;
-		}
-	}
-}
-
 auto gotoRecord(int const &n) -> void{
 	if (n > index.size( ) || n == 0){
 		cout << "No existed record! :-(\n";
@@ -193,6 +156,49 @@ auto gotoRecord(int const &n) -> void{
 		cout << line[tempLine - 2] << endl << line[tempLine] << endl << line[tempLine + 2] << endl;
 	}
 }
+
+auto showTitle( ) -> void{
+	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t"
+		<< setw(20) << "章节" << "   \t" << "书名" << endl;
+}
+
+auto showOutcome( ) -> void{
+	system("cls");
+	info( );
+	if (!item::getFound( )){
+		cout << "没有查询到~~" << endl;
+		return;
+	}
+	showTitle( );
+	for (auto &i : index){
+		i.output( );
+	}
+	cout << "共查询到" << index.size( ) << "条记录" << endl;
+}
+
+auto gotoSearch( ) -> void{
+	index.clear( );
+	item::reset( );
+	cin.getline(strFind,100);
+	item::setName(strFind);
+	search( );
+}
+
+auto checkNum(char const charNum[],bool &flag1,int &n) -> void{
+	const auto charLen = strlen(charNum);
+	for (auto i = 0; i < charLen; i++){
+		if (isdigit(charNum[i])){
+			n *= 10;
+			n += charNum[i] - '0';
+			flag1 = true;
+		}
+		else{
+			flag1 = false;
+			break;
+		}
+	}
+}
+
 auto showMenu( ) -> void{
 	auto flag = true;
 	while (true){

@@ -8,7 +8,6 @@
 *Private Repository:https://github.com/Equationzhao/Harry-Potter-Search
 */
 
-#include <array>
 #include <cstring>
 #include <ctime>
 #include <fstream>
@@ -59,8 +58,7 @@ auto showRemind( ) -> void{
 }
 
 auto initial( ) -> void{
-	array<ifstream,8> file;
-	//shared_ptr<ifstream> file;
+	auto *const file = new ifstream[8];
 	file[0].open("./textSource/hp1.txt",std::ifstream::in);
 	file[1].open("./textSource/hp2.txt",std::ifstream::in);
 	file[2].open("./textSource/hp3.txt",std::ifstream::in);
@@ -70,12 +68,18 @@ auto initial( ) -> void{
 	file[6].open("./textSource/hp7.txt",std::ifstream::in);
 	file[7].open("./textSource/hp8.txt",std::ifstream::in);
 	auto i = 0;
-	for (auto &istr : file){
-		while (getline(istr,line[lineNo])){
+	while (true){
+		while (getline(file[i],line[lineNo])){
+			//cout << line[lineNo] << endl;
 			lineNo++;
 		}
-		istr.close( );
+		file[i].close( );
+		i++;
+		if (i == 8){
+			break;
+		}
 	}
+	delete[]file;
 }
 
 auto gotoSearch( ) -> void{

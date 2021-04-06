@@ -70,8 +70,22 @@ auto initial( ) -> void{
 	file[6].open("./textSource/hp7.txt",std::ifstream::in);
 	file[7].open("./textSource/hp8.txt",std::ifstream::in);
 	auto i = 0;
-	for (auto &istr : file){
-		while (getline(istr,line[lineNo])){
+	//while (true)
+	//{
+	//	while (getline(file[i],line[lineNo]))
+	//	{
+	//		//cout << line[lineNo] << endl;
+	//		lineNo++;
+	//	}
+	//	file[i].close( );
+	//	i++;
+	//	if (i == 8){
+	//		break;
+	//	}
+	//}
+	for (auto &istr : file)	{
+		while (getline(istr,line[lineNo]))		{
+			//cout << line[lineNo] << endl;
 			lineNo++;
 		}
 		istr.close( );
