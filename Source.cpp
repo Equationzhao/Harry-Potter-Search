@@ -8,7 +8,6 @@
 *Private Repository:https://github.com/Equationzhao/Harry-Potter-Search
 */
 
-// ReSharper disable All
 #include <array>
 #include <cstring>
 #include <ctime>
@@ -22,6 +21,9 @@
 #include "item.h"
 using namespace std;
 
+/**
+ * brief 存储需要查找的字符串
+ */
 char strFind[100];
 /**
  * brief line的size
@@ -35,6 +37,7 @@ vector<string> textLine(50000);
  * brief 用于存储每条记录的索引
  */
 vector<item> index;
+
 auto info( ) -> void{
 	cout << "哈利波特书籍检索系统v1.0.1\n";
 }
@@ -58,6 +61,9 @@ auto showRemind( ) -> void{
 		<< "\t3.本软件默认关闭严格搜索模式,在检索人名/地名时影响较小,但在检索其他字符串时可能存在误差\n\t  若要启用/关闭严格模式,请使用strictOn/strictOff命令\n";
 }
 
+/**
+ * brief 初始化,读取文件
+ */
 auto initial( ) -> void{
 	array<ifstream,8> file;
 	file[0].open("./textSource/hp1.txt",std::ifstream::in);
@@ -76,6 +82,9 @@ auto initial( ) -> void{
 	}
 }
 
+/**
+ * brief 清空vector 前往搜索
+ */
 auto gotoSearch( ) -> void{
 	index.clear( );
 	item::reset( );
@@ -84,6 +93,9 @@ auto gotoSearch( ) -> void{
 	search( );
 }
 
+/**
+ * brief 搜索
+ */
 auto search( ) -> void{
 	const auto len = strlen(strFind);
 	const auto start = clock( );
@@ -111,11 +123,17 @@ auto search( ) -> void{
 	cout << "查询用时" << ( (double)end - (double)start ) / 1000 << "秒" << endl;
 }
 
+/**
+ * brief 显示标题
+ */
 auto showTitle( ) -> void{
 	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t"
 		<< setw(20) << "章节" << "   \t" << "书名" << endl;
 }
 
+/**
+ * brief 输出结果
+ */
 auto showOutcome( ) -> void{
 	system("cls");
 	info( );
@@ -130,6 +148,10 @@ auto showOutcome( ) -> void{
 	cout << "共查询到" << index.size( ) << "条记录" << endl;
 }
 
+/**
+ * brief  搜索章节
+ * return string类的章节名
+ */
 auto findChapter(int const &l) -> string{
 	//chapter表示章节,且一行的字符数均小于25
 	const regex pattern("chapter",regex::icase);
@@ -146,6 +168,11 @@ auto findChapter(int const &l) -> string{
 	return "unknown";
 }
 
+/**
+ * brief 搜索页码
+ * param l (行数)
+ * return string类的页码
+ */
 auto findPage(int const &l) -> string{
 	//数字表示页码,且一行的字符数均小于等于3
 	for (auto i = l; i < lineNo; i++){
@@ -159,6 +186,12 @@ auto findPage(int const &l) -> string{
 	return "unknown";
 }
 
+/**
+ * brief 检查输入的是否为合法数字
+ * param charNum 用户输入的以字符形式存储的数字
+ * param flag1
+ * param n
+ */
 auto checkNum(char const charNum[],bool &flag1,int &n) -> void{
 	const auto charLen = strlen(charNum);
 	for (auto i = 0; i < charLen; i++){
@@ -174,6 +207,10 @@ auto checkNum(char const charNum[],bool &flag1,int &n) -> void{
 	}
 }
 
+/**
+ * brief 前往第N条记录
+ * param n
+ */
 auto gotoRecord(int const &n) -> void{
 	if (n > index.size( ) || n == 0){
 		cout << "No existed record! :-(\n";
@@ -192,6 +229,9 @@ auto gotoRecord(int const &n) -> void{
 	}
 }
 
+/**
+ * brief 展示菜单
+ */
 auto showMenu( ) -> void{
 	auto flag = true;
 	while (true){

@@ -6,13 +6,40 @@
 #ifndef _ITEM_
 #define _ITEM_
 
+/**
+ * brief item类存储搜索结果的信息
+ */
 class item{
 public:
+
 	item(int const &pLine,std::string pChapter,std::string pPage)
 		: lineNum_(pLine),page_(std::move(pPage)),
 		chapter_(std::move(pChapter)){
 		idGenerator_++;
 		id_ = idGenerator_;
+		setBookName( );
+	}
+
+	~item( )
+		= default;
+
+	void setPage(std::string const &pPage){
+		page_ = pPage;
+	}
+
+	void setChapter(std::string const &pChapter){
+		chapter_ = pChapter;
+	}
+
+	void setLine(int const &l){
+		lineNum_ = l;
+	}
+
+	static void setName(std::string const &pName){
+		name_ = pName;
+	}
+
+	void setBookName( ){
 		if (lineNum_ == -1){
 			found_ = false;
 		}
@@ -44,25 +71,6 @@ public:
 				book_ = "J.K.Rowling - HP 4 - Harry Potter and the Goblet of Fire";
 			}
 		}
-	}
-
-	~item( )
-		= default;
-
-	void setPage(std::string const &pPage){
-		page_ = pPage;
-	}
-
-	void setChapter(std::string const &pChapter){
-		chapter_ = pChapter;
-	}
-
-	void setLine(int const &l){
-		lineNum_ = l;
-	}
-
-	static void setName(std::string const &pName){
-		name_ = pName;
 	}
 
 	[[nodiscard]] int getLineNum( ) const{
