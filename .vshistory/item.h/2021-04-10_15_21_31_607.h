@@ -131,7 +131,7 @@ public:
 		name_ = "";
 	}
 
-	/*friend auto operator<<(std::ostream out,item &temp) -> std::ostream &
+	friend auto operator<<(std::ostream out,item &temp) -> std::ostream &
 	{
 		out << std::left << temp.id_ << "\t" << item::name_ << "\t\t" << temp.page_ << "\t" << std::setw(15) << temp.chapter_ << "   \t" << temp.book_ << std::endl;
 		return out;
@@ -141,7 +141,7 @@ public:
 	{
 		out << std::left << temp->id_ << "\t" << item::name_ << "\t\t" << temp->page_ << "\t" << std::setw(15) << temp->chapter_ << "   \t" << temp->book_ << std::endl;
 		return out;
-	}*/
+	}
 
 private:
 	int id_;

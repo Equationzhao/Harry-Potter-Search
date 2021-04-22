@@ -201,7 +201,7 @@ auto findPage(int const &l) -> string{
 		{
 			continue;
 		}
-		if (isdigit(textLine[i][0]))
+		if (isDigit(textLine[i]))
 		{
 			return textLine[i];
 		}

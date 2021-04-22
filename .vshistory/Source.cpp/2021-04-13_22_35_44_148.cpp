@@ -201,8 +201,9 @@ auto findPage(int const &l) -> string{
 		{
 			continue;
 		}
-		if (isdigit(textLine[i][0]))
+		if (isDigit(textLine[i]))
 		{
+			cout << textLine[i] << endl;
 			return textLine[i];
 		}
 	}

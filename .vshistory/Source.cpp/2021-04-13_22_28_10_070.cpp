@@ -209,6 +209,21 @@ auto findPage(int const &l) -> string{
 	return "unknown";
 }
 
+auto isDigit(std::string str) -> bool
+
+{
+	auto flag(true);
+	for (auto &i : str)
+	{
+		if (!isdigit(i))
+		{
+			flag = false;
+			break;
+		}
+	}
+	return flag;
+}
+
 /**
  * brief 检查输入的是否为合法数字
  * param charNum 用户输入的以字符形式存储的数字

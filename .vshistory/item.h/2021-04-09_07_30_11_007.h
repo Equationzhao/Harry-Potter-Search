@@ -6,6 +6,13 @@
 #ifndef _ITEM_
 #define _ITEM_
 
+inline auto
+operator<<(std::_Iosb<int>::_Openmode out,std::ios_base &( *rhs )( std::ios_base & )) -> int
+
+{
+	return 0;
+}
+
 /**
  * brief item类存储搜索结果的信息
  */
@@ -15,8 +22,7 @@ public:
 
 	item(int const &pLine,std::string pChapter,std::string pPage)
 		: lineNum_(pLine),page_(std::move(pPage)),
-		chapter_(std::move(pChapter))
-	{
+		chapter_(std::move(pChapter)){
 		idGenerator_++;
 		id_ = idGenerator_;
 		setBookName( );
@@ -25,28 +31,23 @@ public:
 	~item( )
 		= default;
 
-	void setPage(std::string const &pPage)
-	{
+	void setPage(std::string const &pPage){
 		page_ = pPage;
 	}
 
-	void setChapter(std::string const &pChapter)
-	{
+	void setChapter(std::string const &pChapter){
 		chapter_ = pChapter;
 	}
 
-	void setLine(int const &l)
-	{
+	void setLine(int const &l){
 		lineNum_ = l;
 	}
 
-	static void setName(std::string const &pName)
-	{
+	static void setName(std::string const &pName){
 		name_ = pName;
 	}
 
-	void setBookName( )
-	{
+	void setBookName( ){
 		if (lineNum_ == -1)
 		{
 			found_ = false;
@@ -90,58 +91,43 @@ public:
 		}
 	}
 
-	[[nodiscard]] int getLineNum( ) const
-	{
+	[[nodiscard]] int getLineNum( ) const{
 		return lineNum_;
 	}
 
-	[[nodiscard]] std::string getPaper( ) const
-	{
+	[[nodiscard]] std::string getPaper( ) const{
 		return page_;
 	}
 
-	[[nodiscard]] std::string getChapter( ) const
-	{
+	[[nodiscard]] std::string getChapter( ) const{
 		return chapter_;
 	}
 
-	[[nodiscard]] std::string getBook( ) const
-	{
+	[[nodiscard]] std::string getBook( ) const{
 		return book_;
 	}
 
-	static std::string getName( )
-	{
+	static std::string getName( ){
 		return name_;
 	}
 
-	static bool getFound( )
-	{
+	static bool getFound( ){
 		return found_;
 	}
 
-	void output( ) const
-	{
+	void output( ) const{
 		std::cout << std::left << id_ << "\t" << name_ << "\t\t" << page_ << "\t" << std::setw(15) << chapter_ << "   \t" << book_ << std::endl;
 	}
 
-	static void reset( )
-	{
+	static void reset( ){
 		idGenerator_ = 0;
 		name_ = "";
 	}
 
-	/*friend auto operator<<(std::ostream out,item &temp) -> std::ostream &
-	{
-		out << std::left << temp.id_ << "\t" << item::name_ << "\t\t" << temp.page_ << "\t" << std::setw(15) << temp.chapter_ << "   \t" << temp.book_ << std::endl;
-		return out;
+	std::ostream &operator <<(item) const{
+		std::ostream::out << std::left << id_ << "\t" << name_ << "\t\t" << page_ << "\t" << std::setw(15) << chapter_ << "   \t" << book_ << std::endl;
+		return {};
 	}
-
-	friend auto operator<<(std::ostream out,item *temp) -> std::ostream &
-	{
-		out << std::left << temp->id_ << "\t" << item::name_ << "\t\t" << temp->page_ << "\t" << std::setw(15) << temp->chapter_ << "   \t" << temp->book_ << std::endl;
-		return out;
-	}*/
 
 private:
 	int id_;

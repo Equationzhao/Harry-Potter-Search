@@ -38,11 +38,13 @@ vector<string> textLine(50000);  // NOLINT(clang-diagnostic-exit-time-destructor
  */
 vector<item> index;  // NOLINT(clang-diagnostic-exit-time-destructors)
 
-auto info( ) -> void{
+auto info( ) -> void
+{
 	cout << "哈利波特书籍检索系统v1.0.1\n";
 }
 
-auto softwareInformation( ) -> void{
+auto softwareInformation( ) -> void
+{
 	cout << "* Copyright (c) EquationZhao All Rights Reserved.\n"
 		<< "* 版本号： V1.0.1\n"
 		<< "* 创建人： EquationZhao\n"
@@ -51,12 +53,14 @@ auto softwareInformation( ) -> void{
 		<< "* 描述：USTB程序设计实践Ⅰ作业\n";
 }
 
-auto showInfo( ) -> void{
+auto showInfo( ) -> void
+{
 	cout << "输入\"search NAME\",查询为\"NAME\"的人名/地名\n输入\"goto N\",查询第N条记录\n输入\"exit\"退出查询系统\n"
 		<< "使用clear命令清除屏幕上的内容\n使用help命令以显示此提示\n使用info命令显示软件相关信息\n使用strictOn/strictOff命令启用/关闭严格模式\n\n";
 }
 
-auto showRemind( ) -> void{
+auto showRemind( ) -> void
+{
 	cout << "注意:\n\t1.请不要在没有查询过时使用goto,会造成错误\n\t2.本软件对空格敏感,例如\"Harry Potter\"与\"Harry   Potter \"是不同的\n"
 		<< "\t3.本软件默认关闭严格搜索模式,在检索人名/地名时影响较小,但在检索其他字符串时可能存在误差\n\t  若要启用/关闭严格模式,请使用strictOn/strictOff命令\n";
 }
@@ -64,7 +68,8 @@ auto showRemind( ) -> void{
 /**
  * brief 初始化,读取文件
  */
-auto initial( ) -> void{
+auto initial( ) -> void
+{
 	array<ifstream,8> file;
 	file[0].open("./textSource/hp1.txt",std::ifstream::in);
 	file[1].open("./textSource/hp2.txt",std::ifstream::in);
@@ -87,7 +92,8 @@ auto initial( ) -> void{
 /**
  * brief 清空vector 前往搜索
  */
-auto gotoSearch( ) -> void{
+auto gotoSearch( ) -> void
+{
 	index.clear( );
 	item::reset( );
 	cin.getline(strFind,100);
@@ -98,7 +104,8 @@ auto gotoSearch( ) -> void{
 /**
  * brief 搜索
  */
-auto search( ) -> void{
+auto search( ) -> void
+{
 	const auto len = strlen(strFind);
 	const auto start = clock( );
 	for (auto n = 0; n < lineNo; n++)
@@ -139,7 +146,8 @@ auto search( ) -> void{
 /**
  * brief 显示标题
  */
-auto showTitle( ) -> void{
+auto showTitle( ) -> void
+{
 	cout << left << "序号" << "\t" << "人名/地名" << "\t\t" << "页码" << "\t"
 		<< setw(20) << "章节" << "   \t" << "书名" << endl;
 }
@@ -147,7 +155,8 @@ auto showTitle( ) -> void{
 /**
  * brief 输出结果
  */
-auto showOutcome( ) -> void{
+auto showOutcome( ) -> void
+{
 	system("cls");
 	info( );
 	if (!item::getFound( ))
@@ -171,7 +180,8 @@ auto showOutcome( ) -> void{
  * brief  搜索章节
  * return string类的章节名
  */
-auto findChapter(int const &l) -> string{
+auto findChapter(int const &l) -> string
+{
 	//chapter表示章节,且一行的字符数均小于25
 	const regex pattern("chapter",regex::icase);
 	for (auto i = l; i >= 0; i--)
@@ -193,7 +203,8 @@ auto findChapter(int const &l) -> string{
  * param l (行数)
  * return string类的页码
  */
-auto findPage(int const &l) -> string{
+auto findPage(int const &l) -> string
+{
 	//数字表示页码,且一行的字符数均小于等于3
 	for (auto i = l; i < lineNo; i++)
 	{
@@ -215,7 +226,8 @@ auto findPage(int const &l) -> string{
  * param flag1
  * param n
  */
-auto checkNum(char const charNum[],bool &flag1,int &n) -> void{
+auto checkNum(char const charNum[],bool &flag1,int &n) -> void
+{
 	const auto charLen = strlen(charNum);
 	for (auto i = 0; i < charLen; i++)
 	{
@@ -237,7 +249,8 @@ auto checkNum(char const charNum[],bool &flag1,int &n) -> void{
  * brief 前往第N条记录
  * param n
  */
-auto gotoRecord(int const &n) -> void{
+auto gotoRecord(int const &n) -> void
+{
 	if (n > index.size( ) || n == 0)
 	{
 		cout << "No existed record! :-(\n";
@@ -262,7 +275,8 @@ auto gotoRecord(int const &n) -> void{
 /**
  * brief 展示菜单
  */
-auto showMenu( ) -> void{
+auto showMenu( ) -> void
+{
 	auto flag = true;
 	while (true)
 	{
@@ -346,7 +360,8 @@ auto showMenu( ) -> void{
 	}
 }
 
-int main( ){
+int main( )
+{
 	SetConsoleTitle(L"哈利波特书籍检索系统");
 	info( ); //显示基本软件名称
 	showInfo( ); //显示基本操作

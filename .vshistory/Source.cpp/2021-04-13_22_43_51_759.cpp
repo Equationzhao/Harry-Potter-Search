@@ -158,7 +158,7 @@ auto showOutcome( ) -> void{
 	showTitle( );
 	for (const auto &i : index)
 	{
-		i.output( );
+		//i.output( );
 	}
 	/*for (int i = 0; i < index.size( ); i++)
 	{
@@ -201,8 +201,9 @@ auto findPage(int const &l) -> string{
 		{
 			continue;
 		}
-		if (isdigit(textLine[i][0]))
+		if (isDigit(textLine[i]))
 		{
+			cout << textLine[i] << endl;
 			return textLine[i];
 		}
 	}

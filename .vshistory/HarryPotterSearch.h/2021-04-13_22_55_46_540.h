@@ -17,7 +17,7 @@ auto findPage(int const &)->std::string;
 auto isDigit(std::string str) -> bool;
 auto strict = false;
 
-inline auto isDigit(std::string str) -> bool
+auto isDigit(std::string str) -> bool
 
 {
 	auto flag(true);

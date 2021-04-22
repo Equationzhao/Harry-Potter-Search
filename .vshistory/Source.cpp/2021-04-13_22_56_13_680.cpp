@@ -160,10 +160,10 @@ auto showOutcome( ) -> void{
 	{
 		i.output( );
 	}
-	/*for (int i = 0; i < index.size( ); i++)
+	for (int i = 0; i < index.size( ); i++)
 	{
 		cout << index[i];
-	}*/
+	}
 	cout << "共查询到" << index.size( ) << "条记录" << endl;
 }
 

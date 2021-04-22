@@ -14,23 +14,8 @@ auto checkNum(char const charNum[],bool &flag1,int &n) -> void;
 auto gotoRecord(int const &) -> void;
 auto findChapter(int const &)->std::string;
 auto findPage(int const &)->std::string;
-auto isDigit(std::string str) -> bool;
+auto isdigit(string str)->std::string;
 auto strict = false;
-
-inline auto isDigit(std::string str) -> bool
-
-{
-	auto flag(true);
-	for (auto &i : str)
-	{
-		if (!isdigit(i))
-		{
-			flag = false;
-			break;
-		}
-	}
-	return flag;
-}
 
 namespace option
 {

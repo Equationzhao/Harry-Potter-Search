@@ -32,11 +32,11 @@ int lineNo = 0;
 /**
  * brief 用于储存file中每行的字符串
  */
-vector<string> textLine(50000);  // NOLINT(clang-diagnostic-exit-time-destructors)
+vector<string> textLine(50000);
 /**
  * brief 用于存储每条记录的索引
  */
-vector<item> index;  // NOLINT(clang-diagnostic-exit-time-destructors)
+vector<item> index;
 
 auto info( ) -> void{
 	cout << "哈利波特书籍检索系统v1.0.1\n";
@@ -74,13 +74,13 @@ auto initial( ) -> void{
 	file[5].open("./textSource/hp6.txt",std::ifstream::in);
 	file[6].open("./textSource/hp7.txt",std::ifstream::in);
 	file[7].open("./textSource/hp8.txt",std::ifstream::in);
-	for (auto &filePtr : file)
+	for (auto &istr : file)
 	{
-		while (getline(filePtr,textLine[lineNo]))
+		while (getline(istr,textLine[lineNo]))
 		{
 			lineNo++;
 		}
-		filePtr.close( );
+		istr.close( );
 	}
 }
 
@@ -160,10 +160,6 @@ auto showOutcome( ) -> void{
 	{
 		i.output( );
 	}
-	/*for (int i = 0; i < index.size( ); i++)
-	{
-		cout << index[i];
-	}*/
 	cout << "共查询到" << index.size( ) << "条记录" << endl;
 }
 
