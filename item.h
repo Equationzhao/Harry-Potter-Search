@@ -12,40 +12,37 @@
 class item
 {
 public:
-
-	item(int const &pLine,std::string pChapter,std::string pPage)
-		: lineNum_(pLine),page_(std::move(pPage)),
-		chapter_(std::move(pChapter))
+	item( const int& pLine, std::string pChapter, int pPage ) : lineNum_(pLine), page_(std::move(pPage)),
+	                                                            chapter_(std::move(pChapter))
 	{
 		idGenerator_++;
 		id_ = idGenerator_;
-		setBookName( );
+		setBookName();
 	}
 
-	~item( )
-		= default;
+	~item() = default;
 
-	void setPage(std::string const &pPage)
+	auto setPage( const int& pPage ) -> void
 	{
 		page_ = pPage;
 	}
 
-	void setChapter(std::string const &pChapter)
+	auto setChapter( const std::string& pChapter ) -> void
 	{
 		chapter_ = pChapter;
 	}
 
-	void setLine(int const &l)
+	auto setLine( const int& l ) -> void
 	{
 		lineNum_ = l;
 	}
 
-	static void setName(std::string const &pName)
+	static auto setName( const std::string& pName ) -> void
 	{
 		name_ = pName;
 	}
 
-	void setBookName( )
+	auto setBookName() -> void
 	{
 		if (lineNum_ == -1)
 		{
@@ -90,42 +87,43 @@ public:
 		}
 	}
 
-	[[nodiscard]] int getLineNum( ) const
+	[[nodiscard]] auto getLineNum() const -> int
 	{
 		return lineNum_;
 	}
 
-	[[nodiscard]] std::string getPaper( ) const
+	[[nodiscard]] auto getPaper() const -> int
 	{
 		return page_;
 	}
 
-	[[nodiscard]] std::string getChapter( ) const
+	[[nodiscard]] auto getChapter() const -> std::string
 	{
 		return chapter_;
 	}
 
-	[[nodiscard]] std::string getBook( ) const
+	[[nodiscard]] auto getBook() const -> std::string
 	{
 		return book_;
 	}
 
-	static std::string getName( )
+	static auto getName() -> std::string
 	{
 		return name_;
 	}
 
-	static bool getFound( )
+	static auto getFound() -> bool
 	{
 		return found_;
 	}
 
-	void output( ) const
+	auto output() const -> void
 	{
-		std::cout << std::left << id_ << "\t" << name_ << "\t\t" << page_ << "\t" << std::setw(15) << chapter_ << "   \t" << book_ << std::endl;
+		std::cout << std::left << id_ << "\t" << name_ << "\t\t" << page_ << "\t" << std::setw(15) << chapter_ <<
+			"   \t" << book_ << std::endl;
 	}
 
-	static void reset( )
+	static auto reset() -> void
 	{
 		idGenerator_ = 0;
 		name_ = "";
@@ -146,7 +144,7 @@ public:
 private:
 	int id_;
 	int lineNum_;
-	std::string page_;
+	int page_;
 	std::string chapter_;
 	std::string book_;
 	static bool found_;
