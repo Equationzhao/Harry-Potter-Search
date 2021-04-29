@@ -12,7 +12,7 @@ auto gotoSearch() -> void;
 auto search() -> void;
 auto showTitle() -> void;
 auto showOutcome() -> void;
-auto checkNum( const char charNum[], bool& flag1, int& n ) -> void;
+auto checkNum( const char charNum[], int& n ) -> bool;
 auto gotoRecord( const int& ) -> void;
 auto isDigit( const std::string& str ) -> bool;
 auto strict = false;

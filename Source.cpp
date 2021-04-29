@@ -146,7 +146,7 @@ auto search() -> void
 		{
 			if (strFind[0] == textLine[n][j])
 			{
-				int flag = true;
+				auto flag(true);
 				for (auto k = 1; k < static_cast<int>(len); k++)
 				{
 					if (strFind[k] != textLine[n][k + j])
@@ -211,23 +211,24 @@ auto showOutcome() -> void
  * param flag1
  * param n
  */
-auto checkNum( const char charNum[], bool& flag1, int& n ) -> void
+auto checkNum( const char charNum[], int& n ) -> bool
 {
 	const auto charLen = strlen(charNum);
+	auto flag(true);
 	for (auto i = 0; i < static_cast<int>(charLen); i++)
 	{
 		if (isdigit(charNum[i]))
 		{
 			n *= 10;
 			n += charNum[i] - '0';
-			flag1 = true;
 		}
 		else
 		{
-			flag1 = false;
+			flag = false;
 			break;
 		}
 	}
+	return flag;
 }
 
 /**
@@ -284,9 +285,7 @@ auto showMenu() -> void
 			char charNum[10];
 			cin >> charNum;
 			auto n = 0;
-			auto flag1 = false;
-			checkNum(charNum, flag1, n);
-			if (flag1)
+			if (checkNum(charNum, n))
 			{
 				gotoRecord(n); //跳转到第n条记录
 			}

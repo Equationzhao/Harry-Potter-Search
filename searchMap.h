@@ -12,7 +12,6 @@ class searchMap
 {
 private:
 	searchMap() = default;
-
 	std::vector<int> lpage_;
 	std::vector<int> page_;
 	std::vector<int> pchapter_;
