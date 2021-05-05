@@ -12,8 +12,8 @@
 class item
 {
 public:
-	item( const int& pLine, std::string pChapter, int pPage ) : lineNum_(pLine), page_(std::move(pPage)),
-	                                                            chapter_(std::move(pChapter))
+	item(const int& pLine, std::string pChapter, int pPage) : lineNum_(pLine), page_(std::move(pPage)),
+		chapter_(std::move(pChapter))
 	{
 		idGenerator_++;
 		id_ = idGenerator_;
@@ -22,22 +22,22 @@ public:
 
 	~item() = default;
 
-	auto setPage( const int& pPage ) -> void
+	auto setPage(const int& pPage) -> void
 	{
 		page_ = pPage;
 	}
 
-	auto setChapter( const std::string& pChapter ) -> void
+	auto setChapter(const std::string& pChapter) -> void
 	{
 		chapter_ = pChapter;
 	}
 
-	auto setLine( const int& l ) -> void
+	auto setLine(const int& l) -> void
 	{
 		lineNum_ = l;
 	}
 
-	static auto setName( const std::string& pName ) -> void
+	static auto setName(const std::string& pName) -> void
 	{
 		name_ = pName;
 	}
@@ -128,18 +128,6 @@ public:
 		idGenerator_ = 0;
 		name_ = "";
 	}
-
-	/*friend auto operator<<(std::ostream out,item &temp) -> std::ostream &
-	{
-		out << std::left << temp.id_ << "\t" << item::name_ << "\t\t" << temp.page_ << "\t" << std::setw(15) << temp.chapter_ << "   \t" << temp.book_ << std::endl;
-		return out;
-	}
-
-	friend auto operator<<(std::ostream out,item *temp) -> std::ostream &
-	{
-		out << std::left << temp->id_ << "\t" << item::name_ << "\t\t" << temp->page_ << "\t" << std::setw(15) << temp->chapter_ << "   \t" << temp->book_ << std::endl;
-		return out;
-	}*/
 
 private:
 	int id_;

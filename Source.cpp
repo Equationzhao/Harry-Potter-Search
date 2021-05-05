@@ -1,11 +1,11 @@
-ï»¿/*
+/*
 *Copyright (c) equationzhao All Rights Reserved.
-*ç‰ˆæœ¬å·ï¼š V1.1.0
-*åˆ›å»ºäººï¼š equationzhao
-*ç”µå­é‚®ç®±ï¼šequationzhao@foxmail.com
-*åˆ›å»ºæ—¶é—´ï¼š2021.3.31
-*æ›´æ–°æ—¶é—´ï¼š2021.4.29 00:22:02
-*æè¿°ï¼šUSTBç¨‹åºè®¾è®¡å®è·µâ… ä½œä¸š
+*°æ±¾ºÅ£º V1.1.1
+*´´½¨ÈË£º equationzhao
+*µç×ÓÓÊÏä£ºequationzhao@foxmail.com
+*´´½¨Ê±¼ä£º2021.3.31
+*¸üĞÂÊ±¼ä£º2021.4.29 00:22:02
+*ÃèÊö£ºUSTB³ÌĞòÉè¼ÆÊµ¼ù¢ñ×÷Òµ
 *Public Repository:https://github.com/Equationzhao/Harry-Potter-Search
 */
 
@@ -14,7 +14,6 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
-#include <regex>
 #include <vector>
 #include <Windows.h>
 
@@ -24,70 +23,58 @@
 using namespace std;
 
 /**
- * brief å­˜å‚¨éœ€è¦æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
+ * brief ´æ´¢ĞèÒª²éÕÒµÄ×Ö·û´®
  */
 char strFind[100];
 /**
- * brief lineçš„size
+ * brief lineµÄsize
  */
 int lineNo(0);
 /**
- * brief ç”¨äºå‚¨å­˜fileä¸­æ¯è¡Œçš„å­—ç¬¦ä¸²
+ * brief ÓÃÓÚ´¢´æfileÖĞÃ¿ĞĞµÄ×Ö·û´®
  */
 vector<string> textLine(50000); // NOLINT(clang-diagnostic-exit-time-destructors)
 /**
- * brief ç”¨äºå­˜å‚¨æ¯æ¡è®°å½•çš„ç´¢å¼•
+ * brief ÓÃÓÚ´æ´¢Ã¿Ìõ¼ÇÂ¼µÄË÷Òı
  */
 vector<item> index; // NOLINT(clang-diagnostic-exit-time-destructors)
 
 searchMap* searchMap::mainSearcher = new searchMap;
 
-auto info() -> void
+isChapterClass isChapter;
+isPageClass isPage;
+
+inline auto info() -> void
 {
-	cout << "å“ˆåˆ©æ³¢ç‰¹ä¹¦ç±æ£€ç´¢ç³»ç»Ÿv1.0.1\n";
+	cout << "¹şÀû²¨ÌØÊé¼®¼ìË÷ÏµÍ³v1.0.1\n";
 }
 
-auto softwareInformation() -> void
+inline auto softwareInformation() -> void
 {
 	cout << "* Copyright (c) EquationZhao All Rights Reserved.\n"
-		<< "* ç‰ˆæœ¬å·ï¼š V1.1.0\n"
-		<< "* åˆ›å»ºäººï¼š EquationZhao\n"
-		<< "* ç”µå­é‚®ç®±ï¼šequationzhao@foxmail.com\n"
-		<< "* åˆ›å»ºæ—¶é—´ï¼š20210331\n"
-		<< "* æ›´æ–°æ—¶é—´ï¼š2021.4.29 00:22:02\n"
-		<< "* æè¿°ï¼šUSTBç¨‹åºè®¾è®¡å®è·µâ… ä½œä¸š\n";
+		<< "* °æ±¾ºÅ£º V1.1.1\n"
+		<< "* ´´½¨ÈË£º EquationZhao\n"
+		<< "* µç×ÓÓÊÏä£ºequationzhao@foxmail.com\n"
+		<< "* ´´½¨Ê±¼ä£º20210331\n"
+		<< "* ¸üĞÂÊ±¼ä£º2021.4.29 00:22:02\n"
+		<< "* ÃèÊö£ºUSTB³ÌĞòÉè¼ÆÊµ¼ù¢ñ×÷Òµ\n";
 }
 
-auto showInfo() -> void
+inline auto showInfo() -> void
 {
-	cout << "è¾“å…¥\"search NAME\",æŸ¥è¯¢ä¸º\"NAME\"çš„äººå/åœ°å\nè¾“å…¥\"goto N\",æŸ¥è¯¢ç¬¬Næ¡è®°å½•\nè¾“å…¥\"exit\"é€€å‡ºæŸ¥è¯¢ç³»ç»Ÿ\n"
-		<< "ä½¿ç”¨clearå‘½ä»¤æ¸…é™¤å±å¹•ä¸Šçš„å†…å®¹\nä½¿ç”¨helpå‘½ä»¤ä»¥æ˜¾ç¤ºæ­¤æç¤º\nä½¿ç”¨infoå‘½ä»¤æ˜¾ç¤ºè½¯ä»¶ç›¸å…³ä¿¡æ¯\nä½¿ç”¨strictOn/strictOffå‘½ä»¤å¯ç”¨/å…³é—­ä¸¥æ ¼æ¨¡å¼\n\n";
+	cout << "ÊäÈë\"search NAME\",²éÑ¯Îª\"NAME\"µÄÈËÃû/µØÃû\nÊäÈë\"goto N\",²éÑ¯µÚNÌõ¼ÇÂ¼\nÊäÈë\"exit\"ÍË³ö²éÑ¯ÏµÍ³\n"
+		<< "Ê¹ÓÃclearÃüÁîÇå³ıÆÁÄ»ÉÏµÄÄÚÈİ\nÊ¹ÓÃhelpÃüÁîÒÔÏÔÊ¾´ËÌáÊ¾\nÊ¹ÓÃinfoÃüÁîÏÔÊ¾Èí¼şÏà¹ØĞÅÏ¢\nÊ¹ÓÃstrictOn/strictOffÃüÁîÆôÓÃ/¹Ø±ÕÑÏ¸ñÄ£Ê½\n\n";
 }
 
-auto showRemind() -> void
+inline auto showRemind() -> void
 {
-	cout << "æ³¨æ„:\n\t1.è¯·ä¸è¦åœ¨æ²¡æœ‰æŸ¥è¯¢è¿‡æ—¶ä½¿ç”¨goto,ä¼šé€ æˆé”™è¯¯\n\t2.æœ¬è½¯ä»¶å¯¹ç©ºæ ¼æ•æ„Ÿ,ä¾‹å¦‚\"Harry Potter\"ä¸\"Harry   Potter \"æ˜¯ä¸åŒçš„\n"
-		<< "\t3.æœ¬è½¯ä»¶é»˜è®¤å…³é—­ä¸¥æ ¼æœç´¢æ¨¡å¼,åœ¨æ£€ç´¢äººå/åœ°åæ—¶å½±å“è¾ƒå°,ä½†åœ¨æ£€ç´¢å…¶ä»–å­—ç¬¦ä¸²æ—¶å¯èƒ½å­˜åœ¨è¯¯å·®\n\t  è‹¥è¦å¯ç”¨/å…³é—­ä¸¥æ ¼æ¨¡å¼,è¯·ä½¿ç”¨strictOn/strictOffå‘½ä»¤\n";
-}
-
-auto isChapter( const string& i ) -> bool
-{
-	if (i.size() >= 25)
-	{
-		return false;
-	}
-	const regex pattern("chapter", regex::icase);
-	return regex_search(i.begin(), i.end(), pattern);
-}
-
-auto isPage( const string& i ) -> bool
-{
-	return !i.empty() && i.size() < 4 && isdigit(i.at(0));
+	cout << "×¢Òâ:\n\t1.Çë²»ÒªÔÚÃ»ÓĞ²éÑ¯¹ıÊ±Ê¹ÓÃgoto,»áÔì³É´íÎó\n\t2.±¾Èí¼ş¶Ô¿Õ¸ñÃô¸Ğ,ÀıÈç\"Harry Potter\"Óë\"Harry   Potter \"ÊÇ²»Í¬µÄ\n"
+		<< "\t3.±¾Èí¼şÄ¬ÈÏ¹Ø±ÕÑÏ¸ñËÑË÷Ä£Ê½,ÔÚ¼ìË÷ÈËÃû/µØÃûÊ±Ó°Ïì½ÏĞ¡,µ«ÔÚ¼ìË÷ÆäËû×Ö·û´®Ê±¿ÉÄÜ´æÔÚÎó²î\n\t  ÈôÒªÆôÓÃ/¹Ø±ÕÑÏ¸ñÄ£Ê½,ÇëÊ¹ÓÃstrictOn/strictOffÃüÁî\n";
 }
 
 /**
- * brief åˆå§‹åŒ–,è¯»å–æ–‡ä»¶
- * å¹¶å°†æ¯è¡Œå¯¹åº”çš„é¡µç å’Œç« èŠ‚å­˜å…¥searchMap::mainSearcher
+ * brief ³õÊ¼»¯,¶ÁÈ¡ÎÄ¼ş
+ * ²¢½«Ã¿ĞĞ¶ÔÓ¦µÄÒ³ÂëºÍÕÂ½Ú´æÈësearchMap::mainSearcher
  */
 auto initial() -> void
 {
@@ -103,7 +90,7 @@ auto initial() -> void
 	file[7].open("./textSource/hp8.txt", std::ifstream::in);
 	for (auto& filePtr : file)
 	{
-		int tempPage(0); //è®°å½•è¡Œæ•°
+		int tempPage(0); //¼ÇÂ¼ĞĞÊı
 		while (getline(filePtr, textLine[lineNo]))
 		{
 			if (isPage(textLine.at(lineNo)))
@@ -122,7 +109,7 @@ auto initial() -> void
 }
 
 /**
- * brief æ¸…ç©ºvector å‰å¾€æœç´¢
+ * brief Çå¿Õvector Ç°ÍùËÑË÷
  */
 auto gotoSearch() -> void
 {
@@ -134,11 +121,12 @@ auto gotoSearch() -> void
 }
 
 /**
- * brief æœç´¢
+ * brief ËÑË÷
  */
 auto search() -> void
 {
 	const auto len = strlen(strFind);
+	searchMap::mainSearcher->initial();
 	const auto start = clock();
 	for (auto n = 0; n < lineNo; n++)
 	{
@@ -165,6 +153,7 @@ auto search() -> void
 					{
 						j += len; //strictOff
 					}
+
 					index.emplace_back(n, searchMap::mainSearcher->searchChapter(n),
 					                   searchMap::mainSearcher->searchPage(n));
 				}
@@ -173,20 +162,20 @@ auto search() -> void
 	}
 	const auto end = clock();
 	showOutcome();
-	cout << "æŸ¥è¯¢ç”¨æ—¶" << (static_cast<double>(end) - static_cast<double>(start)) / 1000 << "ç§’" << endl;
+	cout << "²éÑ¯ÓÃÊ±" << (static_cast<double>(end) - static_cast<double>(start)) / 1000 << "Ãë" << endl;
 }
 
 /**
- * brief æ˜¾ç¤ºæ ‡é¢˜
+ * brief ÏÔÊ¾±êÌâ
  */
-auto showTitle() -> void
+inline auto showTitle() -> void
 {
-	cout << left << "åºå·" << "\t" << "äººå/åœ°å" << "\t\t" << "é¡µç " << "\t"
-		<< setw(20) << "ç« èŠ‚" << "   \t" << "ä¹¦å" << endl;
+	cout << left << "ĞòºÅ" << "\t" << "ÈËÃû/µØÃû" << "\t\t" << "Ò³Âë" << "\t"
+		<< setw(20) << "ÕÂ½Ú" << "   \t" << "ÊéÃû" << endl;
 }
 
 /**
- * brief è¾“å‡ºç»“æœ
+ * brief Êä³ö½á¹û
  */
 auto showOutcome() -> void
 {
@@ -194,7 +183,7 @@ auto showOutcome() -> void
 	info();
 	if (!item::getFound())
 	{
-		cout << "æ²¡æœ‰æŸ¥è¯¢åˆ°~~" << endl;
+		cout << "Ã»ÓĞ²éÑ¯µ½~~" << endl;
 		return;
 	}
 	showTitle();
@@ -202,13 +191,12 @@ auto showOutcome() -> void
 	{
 		i.output();
 	}
-	cout << "å…±æŸ¥è¯¢åˆ°" << index.size() << "æ¡è®°å½•" << endl;
+	cout << "¹²²éÑ¯µ½" << index.size() << "Ìõ¼ÇÂ¼" << endl;
 }
 
 /**
- * brief æ£€æŸ¥è¾“å…¥çš„æ˜¯å¦ä¸ºåˆæ³•æ•°å­—
- * param charNum ç”¨æˆ·è¾“å…¥çš„ä»¥å­—ç¬¦å½¢å¼å­˜å‚¨çš„æ•°å­—
- * param flag1
+ * brief ¼ì²éÊäÈëµÄÊÇ·ñÎªºÏ·¨Êı×Ö
+ * param charNum ÓÃ»§ÊäÈëµÄÒÔ×Ö·ûĞÎÊ½´æ´¢µÄÊı×Ö
  * param n
  */
 auto checkNum( const char charNum[], int& n ) -> bool
@@ -232,7 +220,7 @@ auto checkNum( const char charNum[], int& n ) -> bool
 }
 
 /**
- * brief å‰å¾€ç¬¬Næ¡è®°å½•
+ * brief Ç°ÍùµÚNÌõ¼ÇÂ¼
  * param n
  */
 auto gotoRecord( const int& n ) -> void
@@ -242,7 +230,7 @@ auto gotoRecord( const int& n ) -> void
 		cout << "No existed record! :-(\n";
 		return;
 	}
-	cout << "ç¬¬" << n << "æ¡è®°å½•" << endl;
+	cout << "µÚ" << n << "Ìõ¼ÇÂ¼" << endl;
 	const auto tempLine = static_cast<size_t>(index[n - 1].getLineNum());
 	if (tempLine == 0)
 	{
@@ -259,7 +247,7 @@ auto gotoRecord( const int& n ) -> void
 }
 
 /**
- * brief å±•ç¤ºèœå•
+ * brief Õ¹Ê¾²Ëµ¥
  */
 auto showMenu() -> void
 {
@@ -287,7 +275,7 @@ auto showMenu() -> void
 			auto n = 0;
 			if (checkNum(charNum, n))
 			{
-				gotoRecord(n); //è·³è½¬åˆ°ç¬¬næ¡è®°å½•
+				gotoRecord(n); //Ìø×ªµ½µÚnÌõ¼ÇÂ¼
 			}
 			else
 			{
@@ -343,12 +331,12 @@ auto showMenu() -> void
 
 auto main() -> int
 {
-	SetConsoleTitle(L"å“ˆåˆ©æ³¢ç‰¹ä¹¦ç±æ£€ç´¢ç³»ç»Ÿ");
-	info(); //æ˜¾ç¤ºåŸºæœ¬è½¯ä»¶åç§°
-	showInfo(); //æ˜¾ç¤ºåŸºæœ¬æ“ä½œ
-	showRemind(); //æ˜¾ç¤ºæ³¨æ„äº‹é¡¹
-	initial(); //åˆå§‹æ¥å—æ–‡ä»¶ä¿¡æ¯å¹¶å­˜äºvector<string>ä¸­
-	showMenu(); //æ˜¾ç¤ºæ“ä½œ
+	SetConsoleTitle(L"¹şÀû²¨ÌØÊé¼®¼ìË÷ÏµÍ³");
+	info(); //ÏÔÊ¾»ù±¾Èí¼şÃû³Æ
+	showInfo(); //ÏÔÊ¾»ù±¾²Ù×÷
+	showRemind(); //ÏÔÊ¾×¢ÒâÊÂÏî
+	initial(); //³õÊ¼½ÓÊÜÎÄ¼şĞÅÏ¢²¢´æÓÚvector<string>ÖĞ
+	showMenu(); //ÏÔÊ¾²Ù×÷
 	softwareInformation();
 	cout << "\nEND\n";
 	return 0;
