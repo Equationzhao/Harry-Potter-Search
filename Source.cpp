@@ -33,11 +33,11 @@ int lineNo(0);
 /**
  * brief 用于储存file中每行的字符串
  */
-vector<string> textLine(50000); // NOLINT(clang-diagnostic-exit-time-destructors)
+vector<string> textLine(50000);
 /**
  * brief 用于存储每条记录的索引
  */
-vector<item> index; // NOLINT(clang-diagnostic-exit-time-destructors)
+vector<item> index;
 
 searchMap* searchMap::mainSearcher = new searchMap;
 
@@ -88,10 +88,10 @@ auto initial() -> void
 	file[5].open("./textSource/hp6.txt", std::ifstream::in);
 	file[6].open("./textSource/hp7.txt", std::ifstream::in);
 	file[7].open("./textSource/hp8.txt", std::ifstream::in);
-	for (auto& filePtr : file)
+	for (auto& files : file)
 	{
 		int tempPage(0); //记录行数
-		while (getline(filePtr, textLine[lineNo]))
+		while (getline(files, textLine[lineNo]))
 		{
 			if (isPage(textLine.at(lineNo)))
 			{
@@ -104,7 +104,7 @@ auto initial() -> void
 			}
 			lineNo++;
 		}
-		filePtr.close();
+		files.close();
 	}
 }
 
@@ -161,7 +161,7 @@ auto search() -> void
 		}
 	}
 	const auto end = clock();
-	showOutcome();
+	//showOutcome();
 	cout << "查询用时" << (static_cast<double>(end) - static_cast<double>(start)) / 1000 << "秒" << endl;
 }
 
